@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/jackc/pgx/pgxpool"
+	"golang.org/x/crypto/bcrypt"
 	"log"
 )
 
@@ -40,6 +41,11 @@ type ResponseUsers struct {
 	Users     []models.User `json:"data"`
 }
 
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes), err
+}
+
 func (receiver *UserSvc) GetUserById(id string) (User models.UserDTO, err error) {
 	conn, err := receiver.pool.Acquire(context.Background())
 	if err != nil {
@@ -47,9 +53,7 @@ func (receiver *UserSvc) GetUserById(id string) (User models.UserDTO, err error)
 		return
 	}
 	defer conn.Release()
-	// for ignoring password
-	//var ignore string
-	//
+
 	err = receiver.pool.QueryRow(context.Background(), getUserByIdDML, id).Scan(
 		&User.Id,
 		&User.Name,
@@ -101,4 +105,26 @@ func (receiver *UserSvc) GetUsers() (Users []models.UserDTO, err error) {
 		return nil, rows.Err()
 	}
 	return
+}
+
+func (receiver *UserSvc) AddNewUser(User models.SaveUser) (err error){
+	User.Password, err = HashPassword(User.Password)
+	if err != nil {
+		fmt.Println("can't do your pass to hash")
+		return err
+	}
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Printf("can't get connection %e", err)
+		return err
+	}
+	defer conn.Release()
+	fmt.Println("User = ", User)
+	_, err = conn.Exec(context.Background(), userSaveDML, User.Name, User.Surname, User.LastName,
+		User.Login, User.Password, User.Phone)
+	if err != nil {
+		log.Print("can't add to db err is = ", err)
+		return err
+	}
+	return nil
 }

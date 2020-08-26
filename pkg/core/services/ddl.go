@@ -8,6 +8,6 @@ const createUsersDDL  = `create table if not exists users (
 	login varchar(30) not null unique,
 	password text not null,
 	phone varchar(30) not null,
-	role varchar(30) not null,
+	role varchar(30) not null default 'user',
 	status boolean default false
 );`

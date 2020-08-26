@@ -1,6 +1,7 @@
 package app
 
 import (
+	"ccs/models"
 	"ccs/token"
 	"encoding/json"
 	"fmt"
@@ -9,7 +10,8 @@ import (
 	"net/http"
 )
 
-func (server *MainServer) LoginHandler(writer http.ResponseWriter, request *http.Request, pr httprouter.Params) {
+//LoginHandler is for login
+func (server *MainServer) LoginHandler(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
 	//	fmt.Println("login\n")
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 	var requestBody token.RequestDTO
@@ -36,8 +38,8 @@ func (server *MainServer) LoginHandler(writer http.ResponseWriter, request *http
 		log.Print(err)
 	}
 }
-
-func (server *MainServer) GetUserByIdHandler(writer http.ResponseWriter, request *http.Request, pr httprouter.Params) {
+//GetUser
+func (server *MainServer) GetUserByIdHandler(writer http.ResponseWriter, _ *http.Request, pr httprouter.Params) {
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 	fmt.Println("I found client By number id")
 	id := pr.ByName(`id`)
@@ -55,9 +57,8 @@ func (server *MainServer) GetUserByIdHandler(writer http.ResponseWriter, request
 		log.Print(err)
 	}
 }
-
-
-func (server *MainServer) GetUsersHandler(writer http.ResponseWriter, request *http.Request, pr httprouter.Params) {
+//Get users
+func (server *MainServer) GetUsersHandler(writer http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 	response, err := server.svc.GetUsers()
 	if err != nil {
@@ -70,3 +71,29 @@ func (server *MainServer) GetUsersHandler(writer http.ResponseWriter, request *h
 		log.Print(err)
 	}
 }
+// Add new User
+func (server *MainServer) AddNewUser(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
+	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+	var requestBody models.SaveUser
+	err := json.NewDecoder(request.Body).Decode(&requestBody)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.json_invalid"})
+		log.Print(err)
+		return
+	}
+	err = server.svc.AddNewUser(requestBody)
+	if err != nil {
+		fmt.Println("Err to add new user")
+		writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	response := requestBody
+	err = json.NewEncoder(writer).Encode(&response)
+	if err != nil {
+		log.Print(err)
+		return
+	}
+	return
+}
+//

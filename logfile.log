@@ -67,3 +67,4 @@
 2020-08-26 17:36:17: [192.168.1.4] login: shah Get all users: Method: GET, path: /api/users
 2020-08-26 17:36:25: [192.168.1.4] login: surush Get all users: Method: GET, path: /api/users
 2020-08-26 17:56:38: [192.168.1.4] login:  Create Token for user: Method: POST, path: /api/login
+2020-08-26 19:14:13: [127.0.0.1] login: surush Get all user by id: Method: GET, path: /api/users/1
