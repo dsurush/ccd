@@ -58,7 +58,8 @@ func (receiver *UserSvc) GetUserById(id string) (User models.UserDTO, err error)
 		&User.Login,
 		//&ignore,
 		&User.Phone,
-		&User.Role)
+		&User.Role,
+		&User.Status)
 	if err != nil {
 		fmt.Printf("Can't scan %e", err)
 	}
@@ -89,7 +90,7 @@ func (receiver *UserSvc) GetUsers() (Users []models.UserDTO, err error) {
 			&User.Login,
 			&User.Phone,
 			&User.Role,
-		)
+			&User.Status)
 		if err != nil {
 			fmt.Println("can't scan err is = ", err)
 		}

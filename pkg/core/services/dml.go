@@ -1,5 +1,5 @@
 package services
 
-const getUserByIdDML = `Select id, name, surname, lastname, login, phone, role from users where id = ($1)`
+const getUserByIdDML = `Select id, name, surname, lastname, login, phone, role, status from users where id = ($1)`
 
-const getUsersDML = `Select id, name, surname, lastname, login, phone, role from users`
+const getUsersDML = `Select id, name, surname, lastname, login, phone, role, status from users`

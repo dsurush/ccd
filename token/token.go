@@ -56,7 +56,8 @@ func (receiver *TokenSvc) FindUserForPassCheck(login string) (User models.User, 
 		&User.Login,
 		&User.Password,
 		&User.Phone,
-		&User.Role)
+		&User.Role,
+		&User.Status)
 	if err != nil {
 		fmt.Printf("Can't scan %e", err)
 	}

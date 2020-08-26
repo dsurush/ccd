@@ -41,7 +41,7 @@ func (server *MainServer) GetUserByIdHandler(writer http.ResponseWriter, request
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 	fmt.Println("I found client By number id")
 	id := pr.ByName(`id`)
-	fmt.Println(id)
+	//fmt.Println(id)
 
 	response, err := server.svc.GetUserById(id)
 	if err != nil {
