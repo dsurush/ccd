@@ -128,3 +128,25 @@ func (receiver *UserSvc) AddNewUser(User models.SaveUser) (err error){
 	}
 	return nil
 }
+
+func (receiver *UserSvc) EditUser(User models.SaveUser, id string) (err error){
+	User.Password, err = HashPassword(User.Password)
+	if err != nil {
+		fmt.Println("can't do your pass to hash")
+		return err
+	}
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Printf("can't get connection %e", err)
+		return err
+	}
+	defer conn.Release()
+	fmt.Println("User = ", User)
+	_, err = conn.Exec(context.Background(), editUserDML, User.Name, User.Surname, User.LastName,
+		User.Login, User.Password, User.Phone, id)
+	if err != nil {
+		log.Print("can't edit to db err is = ", err)
+		return err
+	}
+	return nil
+}

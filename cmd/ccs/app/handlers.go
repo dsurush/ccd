@@ -96,4 +96,30 @@ func (server *MainServer) AddNewUser(writer http.ResponseWriter, request *http.R
 	}
 	return
 }
+// Edit new User
+func (server *MainServer) EditUser(writer http.ResponseWriter, request *http.Request, pr httprouter.Params) {
+	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+	var requestBody models.SaveUser
+	id := pr.ByName(`id`)
+	err := json.NewDecoder(request.Body).Decode(&requestBody)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.json_invalid"})
+		log.Print(err)
+		return
+	}
+	err = server.svc.EditUser(requestBody, id)
+	if err != nil {
+		fmt.Println("Err to add new user")
+		writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	response := requestBody
+	err = json.NewEncoder(writer).Encode(&response)
+	if err != nil {
+		log.Print(err)
+		return
+	}
+	return
+}
 //

@@ -22,6 +22,7 @@ func (server *MainServer) InitRoutes() {
 	server.router.GET(`/api/users/:id`, logger.Logger(`Get all user by id:`)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`}, jwt.FromContext)(server.GetUserByIdHandler)))))
 
 	server.router.POST(`/api/users/add`, server.AddNewUser)
+	server.router.POST(`/api/users/edit/:id`, server.EditUser)
 
 	settings.AppSettings = settings.ReadSettings("./settings.json")
 	port := fmt.Sprintf(":%d", settings.AppSettings.AppParams.PortRun)
