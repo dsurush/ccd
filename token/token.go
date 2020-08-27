@@ -35,6 +35,10 @@ type RequestDTO struct {
 
 type ResponseDTO struct {
 	Token string `json:"token"`
+	Role string `json:"role"`
+	State bool `json:"state"`
+	Name string `json:"name"`
+	Surname string `json:"surname"`
 }
 
 //var ErrInvalidLogin = errors.New("invalid login or password")

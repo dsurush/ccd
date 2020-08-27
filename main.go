@@ -56,6 +56,7 @@ func main() {
 		}
 		w.WriteHeader(http.StatusNoContent)
 	})
+	//svc.Test()
 	password, err := HashPassword("shah")
 	fmt.Println("Im pass = ", password)
 	server := app.NewMainServer(router, pool, svc, tokenSvc)

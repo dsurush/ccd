@@ -14,6 +14,8 @@ import (
 func (server *MainServer) LoginHandler(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
 	//	fmt.Println("login\n")
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+//	get := writer.Header().Get("Role")
+//	fmt.Println("I am HEADER ROLE = ", get)
 	var requestBody token.RequestDTO
 	err := json.NewDecoder(request.Body).Decode(&requestBody)
 	if err != nil {
@@ -22,8 +24,18 @@ func (server *MainServer) LoginHandler(writer http.ResponseWriter, request *http
 		log.Print(err)
 		return
 	}
+
 	log.Printf("login = %s, pass = %s\n", requestBody.Username, requestBody.Password)
 	response, err := server.tokenSvc.Generate(request.Context(), &requestBody)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.password_mismatch", err.Error()})
+		if err != nil {
+			log.Print(err)
+		}
+		return
+	}
+	user, err := server.tokenSvc.FindUserForPassCheck(requestBody.Username)
 	//log.Println(response)
 	if err != nil {
 		writer.WriteHeader(http.StatusBadRequest)
@@ -33,6 +45,11 @@ func (server *MainServer) LoginHandler(writer http.ResponseWriter, request *http
 		}
 		return
 	}
+	response.Role = user.Role
+	response.State = user.Status
+	response.Name = user.Name
+	response.Surname = user.Surname
+//	writer.Header().Set(`Role`, user.Role)
 	err = json.NewEncoder(writer).Encode(&response)
 	if err != nil {
 		log.Print(err)
@@ -122,4 +139,25 @@ func (server *MainServer) EditUser(writer http.ResponseWriter, request *http.Req
 	}
 	return
 }
-//
+// Set Status and Date
+func (server *MainServer) SetStateAndDate(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
+	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+	var requestBody models.States
+	err := json.NewDecoder(request.Body).Decode(&requestBody)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.json_invalid"})
+		log.Print(err)
+		return
+	}
+	ID := request.Header.Get(`ID`)
+	fmt.Println("im id in handler", ID)
+	err = server.svc.SetStateAndDate(requestBody, ID)
+	if err != nil {
+	//	fmt.Println("Err to add new user")
+		writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	return
+}

@@ -8,6 +8,8 @@ import (
 	"github.com/jackc/pgx/pgxpool"
 	"golang.org/x/crypto/bcrypt"
 	"log"
+	"strconv"
+	"time"
 )
 
 type UserSvc struct {
@@ -150,3 +152,31 @@ func (receiver *UserSvc) EditUser(User models.SaveUser, id string) (err error){
 	}
 	return nil
 }
+
+func (receiver *UserSvc) SetStateAndDate(State models.States, id string) (err error) {
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Fatalf("can't get connection %e", err)
+		return err
+	}
+	defer conn.Release()
+	fmt.Println("ID = ", id)
+	atoi, err := strconv.Atoi(id)
+	if err != nil {
+		fmt.Println("can't conver to Int")
+		return
+	}
+	//	fmt.Println("Unix time = ", time.Now().Unix())
+	_, err = conn.Exec(context.Background(), setStateAndTimeDML, int64(atoi), State.Time, State.Status, time.Now().Unix(), time.Now())
+	if err != nil {
+		log.Print("can't add to db err is = ", err)
+		return err
+	}
+	_, err = conn.Exec(context.Background(), editUserStateDML, State.Status, int64(atoi))
+	if err != nil {
+		log.Print("can't add edit User StateDML = ", err)
+		return err
+	}
+	return nil
+}
+
