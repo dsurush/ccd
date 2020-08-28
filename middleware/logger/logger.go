@@ -64,8 +64,8 @@ func Logger(prefix string) func(next httprouter.Handle) httprouter.Handle {
 			if request.URL.Path == `/api/login` {
 				request.Header.Set(`ID`, string(PayloadFields.Id))
 			}
-			get := request.Header.Get(`ID`)
-			fmt.Println(`I am Payloads fields = `, get)
+			//get := request.Header.Get(`ID`)
+			//fmt.Println(`I am Payloads fields = `, get)
 			log.Printf(
 				"%s: [%s] login: %s %s Method: %s, path: %s\n",
 				time.Now().Format("2006-01-02 15:04:05"),

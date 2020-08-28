@@ -142,7 +142,7 @@ func (server *MainServer) EditUser(writer http.ResponseWriter, request *http.Req
 // Set Status and Date
 func (server *MainServer) SetStateAndDate(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
-	var requestBody models.States
+	var requestBody models.StatesDTO
 	err := json.NewDecoder(request.Body).Decode(&requestBody)
 	if err != nil {
 		writer.WriteHeader(http.StatusBadRequest)

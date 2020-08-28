@@ -153,7 +153,7 @@ func (receiver *UserSvc) EditUser(User models.SaveUser, id string) (err error){
 	return nil
 }
 
-func (receiver *UserSvc) SetStateAndDate(State models.States, id string) (err error) {
+func (receiver *UserSvc) SetStateAndDate(State models.StatesDTO, id string) (err error) {
 	conn, err := receiver.pool.Acquire(context.Background())
 	if err != nil {
 		log.Fatalf("can't get connection %e", err)
@@ -180,3 +180,40 @@ func (receiver *UserSvc) SetStateAndDate(State models.States, id string) (err er
 	return nil
 }
 
+func (receiver *UserSvc) GetUserStats(id int64) (Users []models.User, err error) {
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Printf("can't get connection %e", err)
+		return
+	}
+	defer conn.Release()
+	rows, err := conn.Query(context.Background(), getUserStatsDML, time.Now())
+///	fmt.Println()
+	if err != nil {
+		fmt.Printf("can't read user rows %e", err)
+		return
+	}
+	defer rows.Close()
+
+	for rows.Next(){
+		States := models.StatesDTO{}
+		err := rows.Scan(
+			&States.Id,
+			&States.Name,
+			&States.Surname,
+			&States.LastName,
+			&States.Login,
+			&States.Phone,
+			&States.Role,
+			&States.Status)
+		if err != nil {
+			fmt.Println("can't scan err is = ", err)
+		}
+		Users = append(Users, States)
+	}
+	if rows.Err() != nil {
+		log.Printf("rows err %s", err)
+		return nil, rows.Err()
+	}
+	return
+}
