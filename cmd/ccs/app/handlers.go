@@ -8,6 +8,8 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"log"
 	"net/http"
+	"strconv"
+	"time"
 )
 
 //LoginHandler is for login
@@ -89,7 +91,7 @@ func (server *MainServer) GetUsersHandler(writer http.ResponseWriter, _ *http.Re
 	}
 }
 // Add new User
-func (server *MainServer) AddNewUser(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
+func (server *MainServer) AddNewUserHandler(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 	var requestBody models.SaveUser
 	err := json.NewDecoder(request.Body).Decode(&requestBody)
@@ -114,7 +116,7 @@ func (server *MainServer) AddNewUser(writer http.ResponseWriter, request *http.R
 	return
 }
 // Edit new User
-func (server *MainServer) EditUser(writer http.ResponseWriter, request *http.Request, pr httprouter.Params) {
+func (server *MainServer) EditUserHandler(writer http.ResponseWriter, request *http.Request, pr httprouter.Params) {
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 	var requestBody models.SaveUser
 	id := pr.ByName(`id`)
@@ -140,7 +142,7 @@ func (server *MainServer) EditUser(writer http.ResponseWriter, request *http.Req
 	return
 }
 // Set Status and Date
-func (server *MainServer) SetStateAndDate(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
+func (server *MainServer) SetStateAndDateHandler(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 	var requestBody models.StatesDTO
 	err := json.NewDecoder(request.Body).Decode(&requestBody)
@@ -162,7 +164,7 @@ func (server *MainServer) SetStateAndDate(writer http.ResponseWriter, request *h
 	return
 }
 // Get User Stats
-func (server *MainServer) GetUserStats(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
+func (server *MainServer) GetUserStatsHandler(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 	type Time struct {
 		Time int64 `json:"time"`
@@ -191,16 +193,34 @@ func (server *MainServer) GetUserStats(writer http.ResponseWriter, request *http
 		log.Print(err)
 	}
 }
-//var interval models.TimeInterval
-//interval.From = time.Now().Unix() - 5184000
-//interval.To = time.Now().Unix()
-//from, err := strconv.Atoi(request.URL.Query().Get(`from`))
-//if err == nil {
-//from /= 1000
-//interval.From = int64(from)
-//}
-//to, err := strconv.Atoi(request.URL.Query().Get(`to`))
-//if err == nil {
-//to /= 1000
-//interval.To = int64(to)
-//}
+//
+// Get User Stats
+func (server *MainServer) GetUsersStatsHandler(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
+	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+	var interval models.TimeInterval
+	interval.From = time.Now().Unix() - 5184000
+	interval.To = time.Now().Unix()
+	from, err := strconv.Atoi(request.URL.Query().Get(`from`))
+	if err == nil {
+	from /= 1000
+	interval.From = int64(from)
+	}
+	to, err := strconv.Atoi(request.URL.Query().Get(`to`))
+	if err == nil {
+	to /= 1000
+	interval.To = int64(to)
+	}
+
+	fmt.Println(interval.To)
+	response, err := server.svc.GetUsersStats(interval)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.json_invalid"})
+		log.Print(err)
+		return
+	}
+	err = json.NewEncoder(writer).Encode(&response)
+	if err != nil {
+		log.Print(err)
+	}
+}

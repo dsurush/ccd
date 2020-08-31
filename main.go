@@ -2,6 +2,7 @@ package main
 
 import (
 	"ccs/cmd/ccs/app"
+	"ccs/models"
 	"ccs/pkg/core/services"
 	"ccs/token"
 	"context"
@@ -9,6 +10,7 @@ import (
 	"fmt"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
+	"time"
 
 	//	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/jackc/pgx/pgxpool"
@@ -56,14 +58,19 @@ func main() {
 		}
 		w.WriteHeader(http.StatusNoContent)
 	})
-	//stats, err := svc.GetUserStats(`2`, 1598814000)
-	//if err != nil {
-	//	fmt.Println("MAIN SUKA")
-	//} else {
-	//	fmt.Println("stats = ", stats)
-	//}
-	password, err := HashPassword("shah")
-	fmt.Println("Im pass = ", password)
+	interval := models.TimeInterval{
+		From: 1598898032,
+		To:   time.Now().Unix(),
+	}
+	stats, err := svc.GetUsersStats(interval)
+	if err != nil {
+		fmt.Println("MAIN SUKA")
+	} else {
+		fmt.Println("stats = ", stats)
+	}
+	fmt.Println(interval.To)
+	//password, err := HashPassword("shah")
+//	fmt.Println("Im pass = ", password)
 	server := app.NewMainServer(router, pool, svc, tokenSvc)
 
 	server.Start()

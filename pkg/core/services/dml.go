@@ -14,3 +14,8 @@ const setStateAndTimeDML = `Insert into "states" (user_id, work_time, status, un
 const editUserStateDML =  `Update users set status = ($1) where id = ($2)`
 
 const getUserStatsDML = `Select *from states where user_id = ($1) and unix_date > ($2)`
+
+const geUsersStatsDML = `select us.name, us.surname, sum(st.work_time) as work_time, count(*) as count_interval
+from users as us, states as st
+where st.user_id = us.id and st.status = 'false' and unix_date >= ($1) and unix_date <= ($2)
+group by us.name, us.surname`

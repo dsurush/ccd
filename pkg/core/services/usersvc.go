@@ -214,3 +214,36 @@ func (receiver *UserSvc) GetUserStats(id string, from int64) (States []models.St
 	}
 	return
 }
+
+func (receiver *UserSvc) GetUsersStats(interval models.TimeInterval) (States []models.TotalState, err error) {
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Printf("can't get connection %e", err)
+		return
+	}
+	defer conn.Release()
+	rows, err := conn.Query(context.Background(), geUsersStatsDML, interval.From, interval.To)
+	if err != nil {
+		fmt.Printf("can't read user rows %e", err)
+		return
+	}
+	defer rows.Close()
+
+	for rows.Next(){
+		State := models.TotalState{}
+		err := rows.Scan(
+			&State.Name,
+			&State.Surname,
+			&State.WorkTime,
+			&State.CountInterval)
+		if err != nil {
+			fmt.Println("can't scan err is = ", err)
+		}
+		States = append(States, State)
+	}
+	if rows.Err() != nil {
+		log.Printf("rows err %s", err)
+		return nil, rows.Err()
+	}
+	return
+}
