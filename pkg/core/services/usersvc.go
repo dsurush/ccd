@@ -247,3 +247,38 @@ func (receiver *UserSvc) GetUsersStats(interval models.TimeInterval) (States []m
 	}
 	return
 }
+
+func (receiver *UserSvc) GetUserStatsForAdmin(id string, interval models.TimeInterval) (States []models.State, err error) {
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Printf("can't get connection %e", err)
+		return
+	}
+	defer conn.Release()
+	rows, err := conn.Query(context.Background(), getUserStatsForAdminDML, id, interval.From, interval.To)
+	if err != nil {
+		fmt.Printf("can't read user rows %e", err)
+		return
+	}
+	defer rows.Close()
+
+	for rows.Next(){
+		State := models.State{}
+		err := rows.Scan(
+			&State.ID,
+			&State.UserId,
+			&State.WorkTime,
+			&State.Status,
+			&State.UnixDate,
+			&State.TimeDate)
+		if err != nil {
+			fmt.Println("can't scan err is = ", err)
+		}
+		States = append(States, State)
+	}
+	if rows.Err() != nil {
+		log.Printf("rows err %s", err)
+		return nil, rows.Err()
+	}
+	return
+}

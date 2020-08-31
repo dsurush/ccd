@@ -665,3 +665,5 @@
 2020-08-31 23:34:44: [127.0.0.1] login: shah Get users states:  Method: GET, path: /api/users-states
 2020-08-31 23:35:41: [127.0.0.1] login: shah Get users states:  Method: GET, path: /api/users-states
 2020-08-31 23:35:49: [127.0.0.1] login: shah Get users states:  Method: GET, path: /api/users-states
+2020-09-01 00:14:53: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-09-01 00:15:20: [127.0.0.1] login: shah Get users states:  Method: GET, path: /api/users/2/info
