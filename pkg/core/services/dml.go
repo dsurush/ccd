@@ -13,4 +13,4 @@ const setStateAndTimeDML = `Insert into "states" (user_id, work_time, status, un
 
 const editUserStateDML =  `Update users set status = ($1) where id = ($2)`
 
-const getUserStatsDML = `Select *from status where time_date = ?`
+const getUserStatsDML = `Select *from states where user_id = ($1) and unix_date > ($2)`

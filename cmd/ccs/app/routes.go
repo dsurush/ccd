@@ -11,6 +11,7 @@ import (
 	"log"
 	"net/http"
 	"reflect"
+	"time"
 )
 
 func (server *MainServer) InitRoutes() {
@@ -25,11 +26,12 @@ func (server *MainServer) InitRoutes() {
 	server.router.POST(`/api/users/edit/:id`, logger.Logger(`Edit user by id:`)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`}, jwt.FromContext)(server.EditUser)))))
 
 	server.router.POST(`/api/click-state`, logger.Logger(`Set click:`)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`, `user`}, jwt.FromContext)(server.SetStateAndDate)))))
+	server.router.POST(`/api/userstate`, logger.Logger(`Set click:`)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`, `user`}, jwt.FromContext)(server.GetUserStats)))))
 	settings.AppSettings = settings.ReadSettings("./settings.json")
 	port := fmt.Sprintf(":%d", settings.AppSettings.AppParams.PortRun)
 	log.Println(http.ListenAndServe(port, server))
 }
 
 func test()  {
-	//fmt.Println(strconv.Itoa(2))
+	fmt.Println(time.Now().Format(time.RFC3339))
 }

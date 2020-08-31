@@ -161,3 +161,46 @@ func (server *MainServer) SetStateAndDate(writer http.ResponseWriter, request *h
 
 	return
 }
+// Get User Stats
+func (server *MainServer) GetUserStats(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
+	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+	type Time struct {
+		Time int64 `json:"time"`
+	}
+	var requestBody Time
+	err := json.NewDecoder(request.Body).Decode(&requestBody)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.json_invalid"})
+		log.Print(err)
+		return
+	}
+	ID := request.Header.Get(`ID`)
+	requestBody.Time /= 1000
+	fmt.Println("IIIIDDDD = is ", ID)
+	fmt.Println("TIMEEE + IS ", requestBody.Time)
+	response, err := server.svc.GetUserStats(ID, requestBody.Time)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.json_invalid"})
+		log.Print(err)
+		return
+	}
+	err = json.NewEncoder(writer).Encode(&response)
+	if err != nil {
+		log.Print(err)
+	}
+}
+//var interval models.TimeInterval
+//interval.From = time.Now().Unix() - 5184000
+//interval.To = time.Now().Unix()
+//from, err := strconv.Atoi(request.URL.Query().Get(`from`))
+//if err == nil {
+//from /= 1000
+//interval.From = int64(from)
+//}
+//to, err := strconv.Atoi(request.URL.Query().Get(`to`))
+//if err == nil {
+//to /= 1000
+//interval.To = int64(to)
+//}

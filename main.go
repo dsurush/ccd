@@ -56,7 +56,12 @@ func main() {
 		}
 		w.WriteHeader(http.StatusNoContent)
 	})
-	//svc.Test()
+	//stats, err := svc.GetUserStats(`2`, 1598814000)
+	//if err != nil {
+	//	fmt.Println("MAIN SUKA")
+	//} else {
+	//	fmt.Println("stats = ", stats)
+	//}
 	password, err := HashPassword("shah")
 	fmt.Println("Im pass = ", password)
 	server := app.NewMainServer(router, pool, svc, tokenSvc)
