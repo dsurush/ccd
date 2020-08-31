@@ -29,7 +29,7 @@ func (server *MainServer) InitRoutes() {
 	server.router.POST(`/api/userstate`, logger.Logger(`Get user state: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`, `user`}, jwt.FromContext)(server.GetUserStatsHandler)))))
 
 	server.router.GET(`/api/users-states`, logger.Logger(`Get users states: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`, `user`}, jwt.FromContext)(server.GetUsersStatsHandler)))))
-	server.router.GET(`/api/users/:id/info`, logger.Logger(`Get users states: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`, `user`}, jwt.FromContext)(server.GetUserStatsForAdminHandler)))))
+	server.router.GET(`/api/users/:id/info`, logger.Logger(`Get user state by id: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`, `user`}, jwt.FromContext)(server.GetUserStatsForAdminHandler)))))
 	settings.AppSettings = settings.ReadSettings("./settings.json")
 	port := fmt.Sprintf(":%d", settings.AppSettings.AppParams.PortRun)
 	log.Println(http.ListenAndServe(port, server))
