@@ -25,7 +25,7 @@ func NewUserSvc(pool *pgxpool.Pool) *UserSvc {
 
 func (receiver *UserSvc) DbInit() error {
 	fmt.Println("services initial")
-	ddls := []string{createUsersDDL}
+	ddls := []string{createUsersDDL, createStatesDDL}
 	for _, ddl := range ddls {
 		_, err := receiver.pool.Exec(context.Background(), ddl)
 		if err != nil {
@@ -65,7 +65,8 @@ func (receiver *UserSvc) GetUserById(id string) (User models.UserDTO, err error)
 		//&ignore,
 		&User.Phone,
 		&User.Role,
-		&User.Status)
+		&User.Status,
+		&User.Position)
 	if err != nil {
 		fmt.Printf("Can't scan %e", err)
 	}
@@ -96,7 +97,8 @@ func (receiver *UserSvc) GetUsers() (Users []models.UserDTO, err error) {
 			&User.Login,
 			&User.Phone,
 			&User.Role,
-			&User.Status)
+			&User.Status,
+			&User.Position)
 		if err != nil {
 			fmt.Println("can't scan err is = ", err)
 		}
@@ -123,7 +125,7 @@ func (receiver *UserSvc) AddNewUser(User models.SaveUser) (err error){
 	defer conn.Release()
 	fmt.Println("User = ", User)
 	_, err = conn.Exec(context.Background(), userSaveDML, User.Name, User.Surname, User.LastName,
-		User.Login, User.Password, User.Phone)
+		User.Login, User.Password, User.Phone, User.Position)
 	if err != nil {
 		log.Print("can't add to db err is = ", err)
 		return err
@@ -145,7 +147,7 @@ func (receiver *UserSvc) EditUser(User models.SaveUser, id string) (err error){
 	defer conn.Release()
 	fmt.Println("User = ", User)
 	_, err = conn.Exec(context.Background(), editUserDML, User.Name, User.Surname, User.LastName,
-		User.Login, User.Password, User.Phone, id)
+		User.Login, User.Password, User.Phone, User.Position, id)
 	if err != nil {
 		log.Print("can't edit to db err is = ", err)
 		return err

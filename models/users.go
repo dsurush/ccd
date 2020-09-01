@@ -10,6 +10,7 @@ type User struct {
 	Phone    string `json:"phone"`
 	Role     string `json:"role"`
 	Status   bool   `json:"status"`
+	Position string `json:"position"`
 }
 
 type UserDTO struct {
@@ -22,6 +23,7 @@ type UserDTO struct {
 	Phone  string `json:"phone"`
 	Role   string `json:"role"`
 	Status bool   `json:"status"`
+	Position string `json:"position"`
 }
 
 type SaveUser struct {
@@ -31,4 +33,5 @@ type SaveUser struct {
 	Login    string `json:"login"`
 	Password string `json:"password"`
 	Phone    string `json:"phone"`
+	Position string `json:"position"`
 }
