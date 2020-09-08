@@ -5,7 +5,7 @@ import (
 	"ccs/pkg/core/services"
 	"ccs/token"
 	"context"
-	"flag"
+	//"flag"
 	"fmt"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
@@ -15,9 +15,9 @@ import (
 	"log"
 )
 
-var (
-	dsn = flag.String("dsn", "postgres://localadmin:123456789@localhost:5432/test", "Postgres DSN")
-)
+//var (
+//	dsn = flag.String("dsn", "postgres://postgres:918813181s@localhost:5432/test?sslmode=disable", "Postgres DSN")
+//)
 
 func HashPassword(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
@@ -25,10 +25,11 @@ func HashPassword(password string) (string, error) {
 }
 
 func main() {
-	flag.Parse()
+//	flag.Parse()
 	router := httprouter.New()
 
-	pool, err := pgxpool.Connect(context.Background(), *dsn)
+	//pool, err := pgxpool.Connect(context.Background(), *dsn)
+	pool, err := pgxpool.Connect(context.Background(), `postgres://dsurush:dsurush@172.16.7.252:5432/ccs?sslmode=disable`)
 	if err != nil {
 		log.Printf("Owibka - %e", err)
 		log.Fatal("BAD")
@@ -66,8 +67,8 @@ func main() {
 	//	fmt.Println("stats = ", stats)
 	//}
 	//fmt.Println(interval.To)
-	//password, err := HashPassword("shah")
-//	fmt.Println("Im pass = ", password)
+	password, err := HashPassword("surush")
+	fmt.Println("Im pass = ", password)
 	server := app.NewMainServer(router, pool, svc, tokenSvc)
 
 	server.Start()

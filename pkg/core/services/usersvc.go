@@ -146,11 +146,20 @@ func (receiver *UserSvc) EditUser(User models.SaveUser, id string) (err error){
 	}
 	defer conn.Release()
 	fmt.Println("User = ", User)
-	_, err = conn.Exec(context.Background(), editUserDML, User.Name, User.Surname, User.LastName,
-		User.Login, User.Password, User.Phone, User.Position, id)
-	if err != nil {
-		log.Print("can't edit to db err is = ", err)
-		return err
+	if User.Password == ``{
+		_, err = conn.Exec(context.Background(), editUserWithoutPassDML, User.Name, User.Surname, User.LastName,
+			User.Login, User.Phone, User.Position, id)
+		if err != nil {
+			log.Print("can't edit to db err is = ", err)
+			return err
+		}
+	} else {
+		_, err = conn.Exec(context.Background(), editUserDML, User.Name, User.Surname, User.LastName,
+			User.Login, User.Password, User.Phone, User.Position, id)
+		if err != nil {
+			log.Print("can't edit to db err is = ", err)
+			return err
+		}
 	}
 	return nil
 }

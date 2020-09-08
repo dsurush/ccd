@@ -9,6 +9,9 @@ const userSaveDML= `Insert into "users"(name, surname, lastname, login, password
 const editUserDML =  `Update users set name = ($1), surname = ($2), 
 lastname = ($3), login = ($4), password = ($5), phone = ($6), position = ($7) where id = ($8)`
 
+const editUserWithoutPassDML =  `Update users set name = ($1), surname = ($2), 
+lastname = ($3), login = ($4), phone = ($5), position = ($6) where id = ($7)`
+
 const setStateAndTimeDML = `Insert into "states" (user_id, work_time, status, unix_date, time_date) values($1, $2, $3, $4, $5)`
 
 const editUserStateDML =  `Update users set status = ($1) where id = ($2)`
