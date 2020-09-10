@@ -8,10 +8,11 @@ import (
 	"ccs/settings"
 	"ccs/token"
 	"fmt"
+	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
 	"reflect"
-	"time"
+	//"time"
 )
 
 func (server *MainServer) InitRoutes() {
@@ -30,11 +31,20 @@ func (server *MainServer) InitRoutes() {
 
 	server.router.GET(`/api/users-states`, logger.Logger(`Get users states: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`, `user`}, jwt.FromContext)(server.GetUsersStatsHandler)))))
 	server.router.GET(`/api/users/:id/info`, logger.Logger(`Get user state by id: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`, `user`}, jwt.FromContext)(server.GetUserStatsForAdminHandler)))))
+
+	server.router.POST(`/api/settings/change-password`, logger.Logger(`Change pass: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`, `user`}, jwt.FromContext)(server.SetNewPassHandler)))))
 	settings.AppSettings = settings.ReadSettings("./settings.json")
 	port := fmt.Sprintf(":%d", settings.AppSettings.AppParams.PortRun)
 	log.Println(http.ListenAndServe(port, server))
 }
 
 func test()  {
-	fmt.Println(time.Now().Format(time.RFC3339))
+
+	err := bcrypt.CompareHashAndPassword([]byte(`$2a$14$iFltmkBEzTcuNVRWAPTJ2.gu7Y3O77FgADPrmCWkmtnnaa1MMkyta`), []byte(`surush`))
+	if err != nil {
+	//	err = ErrInvalidPasswordOrLogin
+		fmt.Println(err)
+	} else {
+		fmt.Println("I am fine")
+	}
 }

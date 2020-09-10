@@ -2,6 +2,7 @@ package services
 
 import (
 	"ccs/models"
+	"ccs/token"
 	"context"
 	"errors"
 	"fmt"
@@ -291,5 +292,35 @@ func (receiver *UserSvc) GetUserStatsForAdmin(id string, interval models.TimeInt
 		log.Printf("rows err %s", err)
 		return nil, rows.Err()
 	}
+	return
+}
+
+func (receiver *UserSvc) ChangePassword(id string, pass string, newPass string) (err error){
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Printf("can't get connection %e", err)
+		return
+	}
+	defer conn.Release()
+	var password string
+	err = receiver.pool.QueryRow(context.Background(), getUserPassByIdDML, id).Scan(&password)
+	if err != nil {
+		fmt.Printf("Can't scan %e", err)
+		return
+	}
+//TODO: HERE
+	err = bcrypt.CompareHashAndPassword([]byte(password), []byte(pass))
+	if err != nil {
+		err = token.ErrInvalidPasswordOrLogin
+		fmt.Println(err)
+	}
+	HashPass, err := HashPassword(newPass)
+	_, err = receiver.pool.Exec(context.Background(), setUserPassByIdDML, HashPass, id)
+
+	if err != nil {
+		fmt.Printf("Can't set new pass %e", err)
+		return
+	}
+	
 	return
 }

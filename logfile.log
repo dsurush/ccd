@@ -716,3 +716,17 @@
 2020-09-01 19:09:43: [127.0.0.1] login: shah Get user state by id:  Method: GET, path: /api/users/2/info
 2020-09-01 19:09:48: [127.0.0.1] login: shah Get user state by id:  Method: GET, path: /api/users/1/info
 2020-09-01 19:12:07: [127.0.0.1] login: shah Get users states:  Method: GET, path: /api/users-states
+2020-09-10 09:24:35: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-09-10 09:25:06: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-09-10 09:25:12: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-09-10 09:25:19: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-09-10 09:27:16: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-09-10 09:35:55: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-09-10 09:37:18: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-09-10 09:38:09: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-09-10 09:42:40: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-09-10 09:44:58: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-09-10 09:48:01: [127.0.0.1] login: surush Get user state by id:  Method: POST, path: /api/settings/change-password
+2020-09-10 09:48:32: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-09-10 09:48:35: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-09-10 09:49:14: [127.0.0.1] login: surush Get user state by id:  Method: POST, path: /api/settings/change-password

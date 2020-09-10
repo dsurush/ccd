@@ -35,3 +35,8 @@ type SaveUser struct {
 	Phone    string `json:"phone"`
 	Position string `json:"position"`
 }
+
+type ChangePassword struct {
+	Password string `json:"password"`
+	NewPassword string `json:"new_password"`
+}

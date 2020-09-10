@@ -254,3 +254,24 @@ func (server *MainServer) GetUserStatsForAdminHandler(writer http.ResponseWriter
 		log.Print(err)
 	}
 }
+///
+func (server *MainServer) SetNewPassHandler(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
+	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+	var requestBody models.ChangePassword
+	err := json.NewDecoder(request.Body).Decode(&requestBody)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.json_invalid"})
+		log.Print(err)
+		return
+	}
+	ID := request.Header.Get(`ID`)
+	fmt.Println("im id in handler", ID)
+	err = server.svc.ChangePassword(ID, requestBody.Password, requestBody.NewPassword)
+	if err != nil {
+	//	fmt.Println("Err to add new user")
+		writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	return
+}
