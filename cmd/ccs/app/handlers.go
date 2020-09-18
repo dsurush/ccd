@@ -37,6 +37,17 @@ func (server *MainServer) LoginHandler(writer http.ResponseWriter, request *http
 		}
 		return
 	}
+	//TODO CHANGE STATUS
+	const StatusLine = true
+	err = server.svc.SetStatusLine(requestBody.Username, StatusLine)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.password_mismatch", err.Error()})
+		if err != nil {
+			log.Print(err)
+		}
+		return
+	}
 	user, err := server.tokenSvc.FindUserForPassCheck(requestBody.Username)
 	//log.Println(response)
 	if err != nil {

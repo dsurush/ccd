@@ -67,7 +67,8 @@ func (receiver *UserSvc) GetUserById(id string) (User models.UserDTO, err error)
 		&User.Phone,
 		&User.Role,
 		&User.Status,
-		&User.Position)
+		&User.Position,
+		&User.StatusLine)
 	if err != nil {
 		fmt.Printf("Can't scan %e", err)
 	}
@@ -99,7 +100,8 @@ func (receiver *UserSvc) GetUsers() (Users []models.UserDTO, err error) {
 			&User.Phone,
 			&User.Role,
 			&User.Status,
-			&User.Position)
+			&User.Position,
+			&User.StatusLine)
 		if err != nil {
 			fmt.Println("can't scan err is = ", err)
 		}
@@ -323,4 +325,26 @@ func (receiver *UserSvc) ChangePassword(id string, pass string, newPass string) 
 	}
 	
 	return
+}
+
+func (receiver *UserSvc) SetStatusLine(login string, statusLine bool) (err error) {
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Fatalf("can't get connection %e", err)
+		return err
+	}
+	defer conn.Release()
+//	fmt.Println("ID = ", id)
+//	atoi, err := strconv.Atoi(id)
+	if err != nil {
+		fmt.Println("can't convert to Int")
+		return
+	}
+	//	fmt.Println("Unix time = ", time.Now().Unix())
+	_, err = conn.Exec(context.Background(), editUserStatusLineDML, statusLine, login)
+	if err != nil {
+		log.Print("can't add to db status_line true, err is  = ", err)
+		return err
+	}
+	return nil
 }

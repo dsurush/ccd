@@ -12,6 +12,8 @@ import (
 	"log"
 	"net/http"
 	"reflect"
+	"time"
+
 	//"time"
 )
 
@@ -47,4 +49,15 @@ func test()  {
 	} else {
 		fmt.Println("I am fine")
 	}
+
+//	fmt.Println()
+
+//	time := fmt.Sprintf("%d:%d", time.Now().Hour(), time.Now().Minute())
+//	fmt.Println(time)
+	//
+	t := time.Now()
+	rounded := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
+	fmt.Println(t)
+	fmt.Println(rounded)
+
 }

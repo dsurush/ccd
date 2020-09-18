@@ -11,6 +11,7 @@ type User struct {
 	Role     string `json:"role"`
 	Status   bool   `json:"status"`
 	Position string `json:"position"`
+	StatusLine bool `json:"status_line"`
 }
 
 type UserDTO struct {
@@ -24,6 +25,7 @@ type UserDTO struct {
 	Role   string `json:"role"`
 	Status bool   `json:"status"`
 	Position string `json:"position"`
+	StatusLine bool `json:"status_line"`
 }
 
 type SaveUser struct {

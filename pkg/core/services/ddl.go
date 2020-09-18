@@ -21,3 +21,10 @@ const createStatesDDL = `create table if not exists states (
 	unix_date bigint not null,
 	time_date timestamp
 );`
+
+const createFixLogTimeDDL = `create table if not exists login_times (
+	id bigserial primary key not null,
+	user_id bigint not null references users (id),
+	login_date bigint not null,
+	logout_date  timestamp
+);`
