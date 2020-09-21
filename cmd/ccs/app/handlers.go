@@ -286,3 +286,30 @@ func (server *MainServer) SetNewPassHandler(writer http.ResponseWriter, request 
 	}
 	return
 }
+
+func (server *MainServer) ExitClickHandler(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
+	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+
+	//
+	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+	var requestBody models.StatesDTO
+	err := json.NewDecoder(request.Body).Decode(&requestBody)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.json_invalid"})
+		log.Print(err)
+		return
+	}
+	ID := request.Header.Get(`ID`)
+	fmt.Println("im id in handler", ID)
+
+	//
+	/// ---- ////
+	err = server.svc.ExitClick(ID, withTime, requestBody)
+	if err != nil {
+		//	fmt.Println("Err to add new user")
+		writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	return
+}

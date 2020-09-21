@@ -1,6 +1,6 @@
 package services
 
-const getUserByIdDML = `Select id, name, surname, lastname, login, phone, role, status, position from users where id = ($1)`
+const getUserByIdDML = `Select id, name, surname, lastname, login, phone, role, status, position, status_line from users where id = ($1)`
 
 const getUsersDML = `Select id, name, surname, lastname, login, phone, role, status, position, status_line from users`
 
@@ -17,6 +17,8 @@ const setStateAndTimeDML = `Insert into "states" (user_id, work_time, status, un
 const editUserStateDML =  `Update users set status = ($1) where id = ($2)`
 
 const editUserStatusLineDML =  `Update users set status_line = ($1) where login = ($2)`
+
+const editUserStatusLineByIdDML =  `Update users set status_line = ($1) where id = ($2)`
 
 
 const getUserStatsDML = `Select *from states where user_id = ($1) and unix_date > ($2)`
