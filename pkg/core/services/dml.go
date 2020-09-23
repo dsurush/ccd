@@ -20,6 +20,8 @@ const editUserStatusLineDML =  `Update users set status_line = ($1) where login 
 
 const editUserStatusLineByIdDML =  `Update users set status_line = ($1) where id = ($2)`
 
+const editUserStatusByIdDML =  `Update users set status = ($1) where id = ($2)`
+
 
 const getUserStatsDML = `Select *from states where user_id = ($1) and unix_date > ($2)`
 

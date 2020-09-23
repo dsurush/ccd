@@ -29,8 +29,8 @@ func main() {
 	router := httprouter.New()
 
 	//pool, err := pgxpool.Connect(context.Background(), *dsn)
-	//pool, err := pgxpool.Connect(context.Background(), `postgres://dsurush:dsurush@172.16.7.252:5432/ccs?sslmode=disable`)
-	pool, err := pgxpool.Connect(context.Background(), `postgres://dsurush:dsurush@localhost:5432/ccd?sslmode=disable`)
+	pool, err := pgxpool.Connect(context.Background(), `postgres://dsurush:dsurush@172.16.7.252:5432/ccs?sslmode=disable`)
+	//pool, err := pgxpool.Connect(context.Background(), `postgres://dsurush:dsurush@localhost:5432/ccd?sslmode=disable`)
 	if err != nil {
 		log.Printf("Owibka - %e", err)
 		log.Fatal("BAD")

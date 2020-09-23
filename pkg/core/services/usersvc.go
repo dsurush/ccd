@@ -360,6 +360,25 @@ func (receiver *UserSvc) SetStatusLineById(id string, statusLine bool) (err erro
 	return nil
 }
 
+///
+func (receiver *UserSvc) SetStatusById(id string, status bool) (err error) {
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Fatalf("can't get connection %e", err)
+		return err
+	}
+	defer conn.Release()
+
+	_, err = conn.Exec(context.Background(), editUserStatusByIdDML, status, id)
+	if err != nil {
+		log.Print("can't add to db status true, err is  = ", err)
+		return err
+	}
+	return nil
+}
+
+
+
 func (receiver *UserSvc) ExitClick(id string, State models.StatesDTO) (err error){
 	const StatusFalse = false
 	err = receiver.SetStatusLineById(id, StatusFalse)
@@ -372,5 +391,22 @@ func (receiver *UserSvc) ExitClick(id string, State models.StatesDTO) (err error
 		log.Print("can't set to db state and date, err is = ", err)
 		return err
 	}
+	//
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Fatalf("can't get connection %e", err)
+		return err
+	}
+	defer conn.Release()
+	_, err = conn.Exec(context.Background(), editUserStateDML, false, id)
+	if err != nil {
+		log.Print("can't add edit User StateDML = ", err)
+		return err
+	}
+	//
 	return
+}
+
+func (receiver *UserSvc) FixTimeLogin(login string) (err error) {
+return
 }

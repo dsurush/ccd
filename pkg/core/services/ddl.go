@@ -10,7 +10,8 @@ const createUsersDDL  = `create table if not exists users (
 	phone varchar(30) not null,
 	role varchar(30) not null default 'user',
 	status boolean default false,
-	position varchar(30) not null
+	position varchar(30) not null,
+	status_line boolean default false
 );`
 
 const createStatesDDL = `create table if not exists states (
@@ -25,6 +26,7 @@ const createStatesDDL = `create table if not exists states (
 const createFixLogTimeDDL = `create table if not exists login_times (
 	id bigserial primary key not null,
 	user_id bigint not null references users (id),
-	login_date bigint not null,
-	logout_date  timestamp
+	day_date bigint not null,
+	login_date text[] not null,
+	logout_date text[] not null
 );`
