@@ -9,8 +9,8 @@ type TimeInterval struct {
 	To int64 `json:"to"`
 }
 
-func GetUnixTimeStartOfDay() int64 {
-	t := time.Now()
+func GetUnixTimeStartOfDay(t time.Time) int64 {
+//	t := time.Now()
 	rounded := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
 //	fmt.Println(t.Unix())
 	return rounded.Unix()

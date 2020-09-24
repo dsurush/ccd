@@ -5,7 +5,6 @@ import (
 	"ccs/middleware/corss"
 	"ccs/middleware/jwt"
 	"ccs/middleware/logger"
-	"ccs/models"
 	"ccs/settings"
 	"ccs/token"
 	"fmt"
@@ -13,6 +12,8 @@ import (
 	"log"
 	"net/http"
 	"reflect"
+	"time"
+
 	//"time"
 )
 
@@ -22,6 +23,9 @@ func (server *MainServer) InitRoutes() {
 	server.router.POST("/api/login", logger.Logger(`Create Token for user: `)(corss.Middleware(server.LoginHandler)))
 
 	server.router.GET(`/api/users`, logger.Logger(`Get all users: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`}, jwt.FromContext)(server.GetUsersHandler)))))
+	//  Список user - ов с рабочим временем
+	server.router.GET(`/api/user-worktime`, server.GetUsersWithWorkTimeHandler)
+
 	server.router.GET(`/api/users/:id`, logger.Logger(`Get user by id: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`}, jwt.FromContext)(server.GetUserByIdHandler)))))
 
 	server.router.POST(`/api/users/add`, logger.Logger(`Add all user: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`}, jwt.FromContext)(server.AddNewUserHandler)))))
@@ -61,6 +65,5 @@ func test()  {
 	//rounded := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
 	//fmt.Println(rounded.Unix())
 
-	fmt.Println(models.GetUnixTimeStartOfDay())
-
+	fmt.Println(time.Now().Unix())
 }

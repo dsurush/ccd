@@ -101,6 +101,20 @@ func (server *MainServer) GetUsersHandler(writer http.ResponseWriter, _ *http.Re
 		log.Print(err)
 	}
 }
+//Get users with work time
+func (server *MainServer) GetUsersWithWorkTimeHandler(writer http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
+	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+	response, err := server.svc.GetUsersWithWorkTime()
+	if err != nil {
+		fmt.Println("can't take from db")
+		writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	err = json.NewEncoder(writer).Encode(&response)
+	if err != nil {
+		log.Print(err)
+	}
+}
 // Add new User
 func (server *MainServer) AddNewUserHandler(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
@@ -239,7 +253,8 @@ func (server *MainServer) GetUsersStatsHandler(writer http.ResponseWriter, reque
 func (server *MainServer) GetUserStatsForAdminHandler(writer http.ResponseWriter, request *http.Request, pr httprouter.Params) {
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 	var interval models.TimeInterval
-	interval.From = time.Now().Unix() - 3240000
+	startOfDay := models.GetUnixTimeStartOfDay(time.Now())
+	interval.From = startOfDay
 	interval.To = time.Now().Unix()
 	from, err := strconv.Atoi(request.URL.Query().Get(`from`))
 	if err == nil {

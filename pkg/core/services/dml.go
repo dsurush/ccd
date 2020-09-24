@@ -3,6 +3,24 @@ package services
 const getUserByIdDML = `Select id, name, surname, lastname, login, phone, role, status, position, status_line from users where id = ($1)`
 
 const getUsersDML = `Select id, name, surname, lastname, login, phone, role, status, position, status_line from users`
+//get Users
+const getUsersWithWorkTimeDML = `SELECT us.id,
+    us.name,
+    us.surname,
+    us.lastname,
+    us.login,
+    us.phone,
+    us.role,
+    us.status,
+    us."position",
+    us.status_line,
+    ( SELECT COALESCE(sum(st.work_time), 0::bigint) AS sum
+           FROM states st
+          WHERE st.user_id = us.id AND st.status = false AND st.unix_date > ($1)) AS worked,
+    ( SELECT COALESCE(sum(states.work_time), 0::bigint) AS sum
+           FROM states
+          WHERE states.user_id = us.id AND states.status = true AND states.unix_date > ($2)) AS rest
+   FROM users us`
 
 const userSaveDML= `Insert into "users"(name, surname, lastname, login, password, phone, position) values($1, $2, $3, $4, $5, $6, $7)`
 

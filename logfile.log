@@ -3335,3 +3335,6 @@
 2020-09-23 15:31:08: [192.168.1.4] login: shah Exit click:  Method: POST, path: /api/exit
 2020-09-23 15:31:10: [192.168.1.4] login: surush Get all users:  Method: GET, path: /api/users
 2020-09-23 15:31:11: [192.168.1.4] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-24 18:41:46: [127.0.0.1] login: surush Get user state by id:  Method: GET, path: /api/users/1/info
+2020-09-24 18:42:31: [127.0.0.1] login: surush Get user state by id:  Method: GET, path: /api/users/1/info
+2020-09-24 18:42:52: [127.0.0.1] login: surush Get user state by id:  Method: GET, path: /api/users/8/info

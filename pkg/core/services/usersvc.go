@@ -113,6 +113,50 @@ func (receiver *UserSvc) GetUsers() (Users []models.UserDTO, err error) {
 	}
 	return
 }
+// User With WorkTime DTO
+func (receiver *UserSvc) GetUsersWithWorkTime() (Users []models.UserWithWorkTimeDTO, err error) {
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Printf("can't get connection %e", err)
+		return
+	}
+	defer conn.Release()
+	StartOfDay := models.GetUnixTimeStartOfDay(time.Now())
+	rows, err := conn.Query(context.Background(), getUsersWithWorkTimeDML, StartOfDay, StartOfDay)
+	if err != nil {
+		fmt.Printf("can't read user rows %e", err)
+		return
+	}
+	defer rows.Close()
+
+	for rows.Next(){
+		User := models.UserWithWorkTimeDTO{}
+		//string := ""
+		err := rows.Scan(
+			&User.Id,
+			&User.Name,
+			&User.Surname,
+			&User.LastName,
+			&User.Login,
+			&User.Phone,
+			&User.Role,
+			&User.Status,
+			&User.Position,
+			&User.StatusLine,
+			&User.Worked,
+			&User.Rest)
+		if err != nil {
+			fmt.Println("can't scan err is = ", err)
+//			return
+		}
+		Users = append(Users, User)
+	}
+	if rows.Err() != nil {
+		log.Printf("rows err %s", err)
+		return nil, rows.Err()
+	}
+	return
+}
 
 func (receiver *UserSvc) AddNewUser(User models.SaveUser) (err error){
 	User.Password, err = HashPassword(User.Password)
