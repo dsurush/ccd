@@ -24,7 +24,7 @@ func (server *MainServer) InitRoutes() {
 
 	server.router.GET(`/api/users`, logger.Logger(`Get all users: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`}, jwt.FromContext)(server.GetUsersHandler)))))
 	//  Список user - ов с рабочим временем
-	server.router.GET(`/api/user-worktime`, server.GetUsersWithWorkTimeHandler)
+	server.router.GET(`/api/user-worktime`, logger.Logger(`Get user by id: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`}, jwt.FromContext)(server.GetUsersWithWorkTimeHandler)))))
 
 	server.router.GET(`/api/users/:id`, logger.Logger(`Get user by id: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`}, jwt.FromContext)(server.GetUserByIdHandler)))))
 
