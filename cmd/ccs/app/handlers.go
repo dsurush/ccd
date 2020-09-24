@@ -210,6 +210,7 @@ func (server *MainServer) GetUsersStatsHandler(writer http.ResponseWriter, reque
 	var interval models.TimeInterval
 	interval.From = time.Now().Unix() - 3240000
 	interval.To = time.Now().Unix()
+
 	from, err := strconv.Atoi(request.URL.Query().Get(`from`))
 	if err == nil {
 	from /= 1000

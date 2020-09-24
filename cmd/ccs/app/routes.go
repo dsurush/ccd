@@ -5,6 +5,7 @@ import (
 	"ccs/middleware/corss"
 	"ccs/middleware/jwt"
 	"ccs/middleware/logger"
+	"ccs/models"
 	"ccs/settings"
 	"ccs/token"
 	"fmt"
@@ -12,8 +13,6 @@ import (
 	"log"
 	"net/http"
 	"reflect"
-	"time"
-
 	//"time"
 )
 
@@ -58,9 +57,10 @@ func test()  {
 //	time := fmt.Sprintf("%d:%d", time.Now().Hour(), time.Now().Minute())
 //	fmt.Println(time)
 	//
-	t := time.Now()
-	rounded := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
-	fmt.Println(t)
-	fmt.Println(rounded)
+	//t := time.Now()
+	//rounded := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
+	//fmt.Println(rounded.Unix())
+
+	fmt.Println(models.GetUnixTimeStartOfDay())
 
 }
