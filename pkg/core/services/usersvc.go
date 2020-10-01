@@ -526,11 +526,11 @@ user_id = ($1) and time_date = ($2)`, id, TimeDate).Scan(&idNew)
 	return true, nil
 }
 
-func (receiver *UserSvc) UpdateToFixLoginTime(id string){
+func (receiver *UserSvc) UpdateToFixLoginTime(id string) (err error){
 	conn, err := receiver.pool.Acquire(context.Background())
 	if err != nil {
 		log.Printf("can't get connection %e", err)
-		return
+		return err
 	}
 	defer conn.Release()
 	hour := fmt.Sprintf("%s:%s", strconv.Itoa(time.Now().Hour()), strconv.Itoa(time.Now().Minute()))
@@ -542,7 +542,7 @@ func (receiver *UserSvc) UpdateToFixLoginTime(id string){
 		fmt.Printf(" Cant Update %e", err)
 		return
 	}
-	return
+	return nil
 }
 
 func (receiver *UserSvc) SetLoginTime(id string) {
@@ -551,7 +551,10 @@ func (receiver *UserSvc) SetLoginTime(id string) {
 		return
 	}
 	if ok {
-		//TODO : INSERT INTO ARRAY FIELD NEW DATE
+		err := receiver.UpdateToFixLoginTime(id)
+		if err != nil {
+			fmt.Println("Can't")
+		}
 	} else {
 		err := receiver.FixTimeLogin(id)
 		if err != nil {
