@@ -60,4 +60,4 @@ const FixLogoutTime = `Insert into "login_times"(user_id, day_date, logout_date,
 
 const UpdateToFixLoginTime = `Update login_times set login_date = array_append(login_date, ($1)) where user_id = ($2) and time_date = ($3)`
 
-const UpdateToFixLogoutTime = `Update logout_times set logout_date = array_append(logout_date, ($1)) where user_id = ($2) and time_date = ($3)`
+const UpdateToFixLogoutTime = `Update login_times set logout_date = array_append(logout_date, ($1)) where user_id = ($2) and time_date = ($3)`

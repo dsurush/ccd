@@ -454,7 +454,7 @@ func (receiver *UserSvc) ExitClick(id string, State models.StatesDTO) (err error
 	}
 	err = receiver.SetLogoutTime(int64(atoi))
 	if err != nil {
-		fmt.Println("can't add change")
+		fmt.Println("can't add changeп")
 		return
 	}
 	//
@@ -631,6 +631,41 @@ func (receiver *UserSvc) SetLogoutTime(id int64) (err error) {
 			fmt.Printf("Can't fix time err is %e\n", err)
 			return err
 		}
+	}
+	return
+}
+
+func (receiver *UserSvc) GetReport(from, to string) (Reports []models.Report, err error) {
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Printf("can't get connection %e", err)
+		return
+	}
+	defer conn.Release()
+	rows, err := conn.Query(context.Background(), `SELECT * FROM public.report where time_date >= ($1) and time_date <= ($2)`, from, to)
+	if err != nil {
+		fmt.Printf("can't read user rows %e", err)
+		return
+	}
+	defer rows.Close()
+
+	for rows.Next(){
+		Report := models.Report{}
+		err := rows.Scan(
+			&Report.Name,
+			&Report.Surname,
+			&Report.LoginDate,
+			&Report.LogoutDate,
+			&Report.Sum,
+			&Report.Time)
+		if err != nil {
+			fmt.Println("can't scan err is = ", err)
+		}
+		Reports = append(Reports, Report)
+	}
+	if rows.Err() != nil {
+		log.Printf("rows err %s", err)
+		return nil, rows.Err()
 	}
 	return
 }
