@@ -325,6 +325,7 @@ func (server *MainServer) ExitClickHandler(writer http.ResponseWriter, request *
 
 	//
 	/// ---- ////
+
 	err = server.svc.ExitClick(ID, requestBody)
 	if err != nil {
 		//	fmt.Println("Err to add new user")

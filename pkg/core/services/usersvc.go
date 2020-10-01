@@ -447,6 +447,16 @@ func (receiver *UserSvc) ExitClick(id string, State models.StatesDTO) (err error
 		log.Print("can't add edit User StateDML = ", err)
 		return err
 	}
+	atoi, err := strconv.Atoi(id)
+	if err != nil {
+		fmt.Println("can't conver id")
+		return
+	}
+	err = receiver.SetLogoutTime(int64(atoi))
+	if err != nil {
+		fmt.Println("can't add change")
+		return
+	}
 	//
 	return
 }
