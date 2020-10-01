@@ -334,3 +334,23 @@ func (server *MainServer) ExitClickHandler(writer http.ResponseWriter, request *
 	}
 	return
 }
+//
+func (server *MainServer) ReportHandler(writer http.ResponseWriter, request *http.Request, pr httprouter.Params) {
+	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+
+	from := request.URL.Query().Get(`from`)
+	to := request.URL.Query().Get(`to`)
+
+	response, err := server.svc.GetReport(from, to)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.json_invalid"})
+		log.Print(err)
+		return
+	}
+	err = json.NewEncoder(writer).Encode(&response)
+	if err != nil {
+		log.Print(err)
+		return
+	}
+}
