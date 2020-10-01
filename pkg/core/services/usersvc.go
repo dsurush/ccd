@@ -603,24 +603,24 @@ func (receiver *UserSvc) SetLoginTime(id int64) (err error) {
 	}
 	return
 }
-//
-//func (receiver *UserSvc) SetLogoutTime(id int64) (err error) {
-//	ok, err := receiver.CheckHasFixForToday(id)
-//	if err != nil {
-//		return
-//	}
-//	if ok {
-//		err := receiver.UpdateToFixLoginTime(id)
-//		if err != nil {
-//			fmt.Println("Can't update err", err)
-//			return err
-//		}
-//	} else {
-//		err := receiver.FixTimeLogin(id)
-//		if err != nil {
-//			fmt.Printf("Can't fix time err is %e\n", err)
-//			return err
-//		}
-//	}
-//	return
-//}
+
+func (receiver *UserSvc) SetLogoutTime(id int64) (err error) {
+	ok, err := receiver.CheckHasFixForToday(id)
+	if err != nil {
+		return
+	}
+	if ok {
+		err := receiver.UpdateToFixLogoutTime(id)
+		if err != nil {
+			fmt.Println("Can't update err", err)
+			return err
+		}
+	} else {
+		err := receiver.FixTimeLogout(id)
+		if err != nil {
+			fmt.Printf("Can't fix time err is %e\n", err)
+			return err
+		}
+	}
+	return
+}
