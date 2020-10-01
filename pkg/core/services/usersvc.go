@@ -506,11 +506,11 @@ func (receiver *UserSvc) TestMe(time string) (Reports []models.Report, err error
 	}
 	return
 }
-func (receiver *UserSvc) CheckHasFixForToday(id int64) (newId int64, err error){
+func (receiver *UserSvc) CheckHasFixForToday(id string) (ok bool, err error){
 	conn, err := receiver.pool.Acquire(context.Background())
 	if err != nil {
 		log.Printf("can't get connection %e", err)
-		return
+		return false, err
 	}
 	defer conn.Release()
 	sprintf := fmt.Sprintf("%s", time.Now())
@@ -520,9 +520,43 @@ func (receiver *UserSvc) CheckHasFixForToday(id int64) (newId int64, err error){
 	_ = conn.QueryRow(context.Background(), `Select id from login_times where 
 user_id = ($1) and time_date = ($2)`, id, TimeDate).Scan(&idNew)
 	fmt.Println("I am newID = (%d)", idNew)
+	if idNew == 0{
+		return false, nil
+	}
+	return true, nil
+}
+
+func (receiver *UserSvc) UpdateToFixLoginTime(id string){
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Printf("can't get connection %e", err)
+		return
+	}
+	defer conn.Release()
+	hour := fmt.Sprintf("%s:%s", strconv.Itoa(time.Now().Hour()), strconv.Itoa(time.Now().Minute()))
+	sprintf := fmt.Sprintf("%s", time.Now())
+	TimeDate := sprintf[0:10]
+	fmt.Println(id, hour, TimeDate)
+	_, err = conn.Exec(context.Background(), UpdateToFixLoginTime, hour, id, TimeDate)
+	if err != nil {
+		fmt.Printf(" Cant Update %e", err)
+		return
+	}
 	return
 }
 
-func (receiver *UserSvc) SetLoginTime() {
-
+func (receiver *UserSvc) SetLoginTime(id string) {
+	ok, err := receiver.CheckHasFixForToday(id)
+	if err != nil {
+		return
+	}
+	if ok {
+		//TODO : INSERT INTO ARRAY FIELD NEW DATE
+	} else {
+		err := receiver.FixTimeLogin(id)
+		if err != nil {
+			fmt.Printf("Can't fix time err is %e\n", err)
+			return
+		}
+	}
 }

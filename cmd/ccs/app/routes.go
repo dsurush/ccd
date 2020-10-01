@@ -11,8 +11,6 @@ import (
 	"log"
 	"net/http"
 	"reflect"
-	"time"
-
 	//"time"
 )
 
@@ -53,23 +51,23 @@ func test(server *MainServer)  {
 	//} else {
 	//	fmt.Println("xuynya")
 	//}
-
-	sprintf := fmt.Sprintf("%s", time.Now())
-	fmt.Println(sprintf[0:10], "|", "+")
+	//
+	//sprintf := fmt.Sprintf("%s", time.Now())
+	//fmt.Println(sprintf[0:10], "|", "+")
 	//me, err := server.svc.TestMe(sprintf[0:10])
 	//if err != nil {
 	//	fmt.Println("pizda")
 	//} else {
 	//	fmt.Println(me)
 	//}
-
-	_, err := server.svc.CheckHasFixForToday(1)
-	if err != nil {
-		fmt.Println("Pizdec naxoy blyat")
-		return
-	} else {
-		fmt.Println("YESSS")
-	}
+	//
+	//_, err := server.svc.CheckHasFixForToday(1)
+	//if err != nil {
+	//	fmt.Println("Pizdec naxoy blyat")
+	//	return
+	//} else {
+	//	fmt.Println("YESSS")
+	//}
 	//err := bcrypt.CompareHashAndPassword([]byte(`$2a$14$iFltmkBEzTcuNVRWAPTJ2.gu7Y3O77FgADPrmCWkmtnnaa1MMkyta`), []byte(`surush`))
 	//if err != nil {
 	////	err = ErrInvalidPasswordOrLogin
@@ -87,5 +85,5 @@ func test(server *MainServer)  {
 	//rounded := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
 	//fmt.Println(rounded.Unix())
 //	fmt.Println(time.Now().Unix())
-
+	server.svc.UpdateToFixLoginTime(`1`)
 }
