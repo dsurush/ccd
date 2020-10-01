@@ -54,6 +54,15 @@ func (server *MainServer) LoginHandler(writer http.ResponseWriter, request *http
 		}
 		return
 	}
+	err = server.svc.SetLoginTime(user.Id)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.password_mismatch", err.Error()})
+		if err != nil {
+			log.Print(err)
+		}
+		return
+	}
 	response.Role = user.Role
 	response.State = user.Status
 	response.Name = user.Name 	

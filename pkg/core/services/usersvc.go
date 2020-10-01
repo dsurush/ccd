@@ -451,7 +451,7 @@ func (receiver *UserSvc) ExitClick(id string, State models.StatesDTO) (err error
 	return
 }
 
-func (receiver *UserSvc) FixTimeLogin(id string) (err error) {
+func (receiver *UserSvc) FixTimeLogin(id int64) (err error) {
 	conn, err := receiver.pool.Acquire(context.Background())
 	if err != nil {
 		log.Printf("can't get connection %e", err)
@@ -506,7 +506,7 @@ func (receiver *UserSvc) TestMe(time string) (Reports []models.Report, err error
 	}
 	return
 }
-func (receiver *UserSvc) CheckHasFixForToday(id string) (ok bool, err error){
+func (receiver *UserSvc) CheckHasFixForToday(id int64) (ok bool, err error){
 	conn, err := receiver.pool.Acquire(context.Background())
 	if err != nil {
 		log.Printf("can't get connection %e", err)
@@ -526,7 +526,7 @@ user_id = ($1) and time_date = ($2)`, id, TimeDate).Scan(&idNew)
 	return true, nil
 }
 
-func (receiver *UserSvc) UpdateToFixLoginTime(id string) (err error){
+func (receiver *UserSvc) UpdateToFixLoginTime(id int64) (err error){
 	conn, err := receiver.pool.Acquire(context.Background())
 	if err != nil {
 		log.Printf("can't get connection %e", err)
@@ -545,7 +545,26 @@ func (receiver *UserSvc) UpdateToFixLoginTime(id string) (err error){
 	return nil
 }
 
-func (receiver *UserSvc) SetLoginTime(id string) {
+//func (receiver *UserSvc) UpdateToFixLogoutTime(id int64) (err error){
+//	conn, err := receiver.pool.Acquire(context.Background())
+//	if err != nil {
+//		log.Printf("can't get connection %e", err)
+//		return err
+//	}
+//	defer conn.Release()
+//	hour := fmt.Sprintf("%s:%s", strconv.Itoa(time.Now().Hour()), strconv.Itoa(time.Now().Minute()))
+//	sprintf := fmt.Sprintf("%s", time.Now())
+//	TimeDate := sprintf[0:10]
+//	fmt.Println(id, hour, TimeDate)
+//	_, err = conn.Exec(context.Background(), UpdateToFixLoginTime, hour, id, TimeDate)
+//	if err != nil {
+//		fmt.Printf(" Cant Update %e", err)
+//		return
+//	}
+//	return nil
+//}
+
+func (receiver *UserSvc) SetLoginTime(id int64) (err error) {
 	ok, err := receiver.CheckHasFixForToday(id)
 	if err != nil {
 		return
@@ -553,13 +572,36 @@ func (receiver *UserSvc) SetLoginTime(id string) {
 	if ok {
 		err := receiver.UpdateToFixLoginTime(id)
 		if err != nil {
-			fmt.Println("Can't")
+			fmt.Println("Can't update err", err)
+			return err
 		}
 	} else {
 		err := receiver.FixTimeLogin(id)
 		if err != nil {
 			fmt.Printf("Can't fix time err is %e\n", err)
-			return
+			return err
 		}
 	}
+	return
 }
+//
+//func (receiver *UserSvc) SetLogoutTime(id int64) (err error) {
+//	ok, err := receiver.CheckHasFixForToday(id)
+//	if err != nil {
+//		return
+//	}
+//	if ok {
+//		err := receiver.UpdateToFixLoginTime(id)
+//		if err != nil {
+//			fmt.Println("Can't update err", err)
+//			return err
+//		}
+//	} else {
+//		err := receiver.FixTimeLogin(id)
+//		if err != nil {
+//			fmt.Printf("Can't fix time err is %e\n", err)
+//			return err
+//		}
+//	}
+//	return
+//}

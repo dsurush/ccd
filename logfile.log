@@ -3495,3 +3495,5 @@
 2020-09-25 18:50:50: [127.0.0.1] login: shah Set click:  Method: POST, path: /api/click-state
 2020-09-25 18:50:54: [127.0.0.1] login: shah Set click:  Method: POST, path: /api/click-state
 2020-09-25 18:50:56: [127.0.0.1] login: shah Set click:  Method: POST, path: /api/click-state
+2020-10-01 18:27:19: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-10-01 18:28:30: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login

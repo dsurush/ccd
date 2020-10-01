@@ -85,5 +85,5 @@ func test(server *MainServer)  {
 	//rounded := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
 	//fmt.Println(rounded.Unix())
 //	fmt.Println(time.Now().Unix())
-	server.svc.UpdateToFixLoginTime(`1`)
+//	server.svc.UpdateToFixLoginTime(`1`)
 }
