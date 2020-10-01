@@ -451,6 +451,78 @@ func (receiver *UserSvc) ExitClick(id string, State models.StatesDTO) (err error
 	return
 }
 
-func (receiver *UserSvc) FixTimeLogin(login string) (err error) {
-return
+func (receiver *UserSvc) FixTimeLogin(id string) (err error) {
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Printf("can't get connection %e", err)
+		return
+	}
+	defer conn.Release()
+	hour := fmt.Sprintf("%s:%s", strconv.Itoa(time.Now().Hour()), strconv.Itoa(time.Now().Minute()))
+	var hours []string
+	hours = append(hours, hour)
+	_, err = conn.Exec(context.Background(), FixLoginTime, id, time.Now().Unix(), hours, time.Now())
+	if err != nil {
+		fmt.Printf(" Cant Get %e", err)
+		return
+	}
+	return
+}
+
+func (receiver *UserSvc) TestMe(time string) (Reports []models.Report, err error) {
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Printf("can't get connection %e", err)
+		return
+	}
+	defer conn.Release()
+	rows, err := conn.Query(context.Background(), `SELECT us.name, us.surname, lt.login_date, lt.logout_date, sum(swd.work_time), swd.time_date FROM public.states_with_date as swd,
+		login_times as lt, users as us
+		where lt.user_id = swd.user_id and lt.time_date = swd.time_date and us.id = lt.user_id and lt.time_date < ($1)
+		group by swd.user_id, swd.time_date, lt.login_date, lt.logout_date, us.name, us.surname`, time)
+	if err != nil {
+		fmt.Printf("can't read user rows %e", err)
+		return
+	}
+	defer rows.Close()
+
+	for rows.Next(){
+		Report := models.Report{}
+		err := rows.Scan(
+			&Report.Name,
+			&Report.Surname,
+			&Report.LoginDate,
+			&Report.LogoutDate,
+			&Report.Sum,
+			&Report.Time)
+		if err != nil {
+			fmt.Println("can't scan err is = ", err)
+		}
+		Reports = append(Reports, Report)
+	}
+	if rows.Err() != nil {
+		log.Printf("rows err %s", err)
+		return nil, rows.Err()
+	}
+	return
+}
+func (receiver *UserSvc) CheckHasFixForToday(id int64) (newId int64, err error){
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Printf("can't get connection %e", err)
+		return
+	}
+	defer conn.Release()
+	sprintf := fmt.Sprintf("%s", time.Now())
+	TimeDate := sprintf[0:10]
+	fmt.Println(sprintf[0:10])
+	var idNew int64
+	_ = conn.QueryRow(context.Background(), `Select id from login_times where 
+user_id = ($1) and time_date = ($2)`, id, TimeDate).Scan(&idNew)
+	fmt.Println("I am newID = (%d)", idNew)
+	return
+}
+
+func (receiver *UserSvc) SetLoginTime() {
+
 }

@@ -14,10 +14,7 @@ import (
 
 //LoginHandler is for login
 func (server *MainServer) LoginHandler(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
-	//	fmt.Println("login\n")
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
-//	get := writer.Header().Get("Role")
-//	fmt.Println("I am HEADER ROLE = ", get)
 	var requestBody token.RequestDTO
 	err := json.NewDecoder(request.Body).Decode(&requestBody)
 	if err != nil {
@@ -37,7 +34,6 @@ func (server *MainServer) LoginHandler(writer http.ResponseWriter, request *http
 		}
 		return
 	}
-	//TODO CHANGE STATUS
 	const StatusLine = true
 	err = server.svc.SetStatusLine(requestBody.Username, StatusLine)
 	if err != nil {
@@ -60,9 +56,8 @@ func (server *MainServer) LoginHandler(writer http.ResponseWriter, request *http
 	}
 	response.Role = user.Role
 	response.State = user.Status
-	response.Name = user.Name
+	response.Name = user.Name 	
 	response.Surname = user.Surname
-//	writer.Header().Set(`Role`, user.Role)
 	err = json.NewEncoder(writer).Encode(&response)
 	if err != nil {
 		log.Print(err)

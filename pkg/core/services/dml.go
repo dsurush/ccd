@@ -41,9 +41,9 @@ const editUserStatusLineByIdDML =  `Update users set status_line = ($1) where id
 const editUserStatusByIdDML =  `Update users set status = ($1) where id = ($2)`
 
 
-const getUserStatsDML = `Select *from states where user_id = ($1) and unix_date > ($2)`
+const getUserStatsDML = `Select id, user_id, work_time, status, unix_date, time_date from states where user_id = ($1) and unix_date > ($2)`
 
-const getUserStatsForAdminDML = `Select *from states where user_id = ($1) and unix_date >= ($2) and unix_date <= ($3)`
+const getUserStatsForAdminDML = `Select id, user_id, work_time, status, unix_date, time_date from states where user_id = ($1) and unix_date >= ($2) and unix_date <= ($3)`
 
 const geUsersStatsDML = `select us.name, us.surname, sum(st.work_time) as work_time, count(*) as count_interval
 from users as us, states as st
@@ -53,3 +53,5 @@ group by us.name, us.surname`
 const getUserPassByIdDML = `Select password from users where id = ($1)`
 
 const setUserPassByIdDML =  `Update users set password = ($1) where id = ($2)`
+
+const FixLoginTime = `Insert into "login_times"(user_id, day_date, login_date, time_date) values($1, $2, $3, $4)`

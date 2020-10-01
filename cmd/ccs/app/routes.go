@@ -8,7 +8,6 @@ import (
 	"ccs/settings"
 	"ccs/token"
 	"fmt"
-	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
 	"reflect"
@@ -19,7 +18,7 @@ import (
 
 func (server *MainServer) InitRoutes() {
 	fmt.Println("Init routes")
-	test()
+	test(server)
 	server.router.POST("/api/login", logger.Logger(`Create Token for user: `)(corss.Middleware(server.LoginHandler)))
 
 	server.router.GET(`/api/users`, logger.Logger(`Get all users: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`}, jwt.FromContext)(server.GetUsersHandler)))))
@@ -46,15 +45,38 @@ func (server *MainServer) InitRoutes() {
 	log.Println(http.ListenAndServe(port, server))
 }
 
-func test()  {
+func test(server *MainServer)  {
 
-	err := bcrypt.CompareHashAndPassword([]byte(`$2a$14$iFltmkBEzTcuNVRWAPTJ2.gu7Y3O77FgADPrmCWkmtnnaa1MMkyta`), []byte(`surush`))
+	//err := server.svc.FixTimeLogin("1")
+	//if err != nil {
+	//	fmt.Println("pizda")
+	//} else {
+	//	fmt.Println("xuynya")
+	//}
+
+	sprintf := fmt.Sprintf("%s", time.Now())
+	fmt.Println(sprintf[0:10], "|", "+")
+	//me, err := server.svc.TestMe(sprintf[0:10])
+	//if err != nil {
+	//	fmt.Println("pizda")
+	//} else {
+	//	fmt.Println(me)
+	//}
+
+	_, err := server.svc.CheckHasFixForToday(1)
 	if err != nil {
-	//	err = ErrInvalidPasswordOrLogin
-		fmt.Println(err)
+		fmt.Println("Pizdec naxoy blyat")
+		return
 	} else {
-		fmt.Println("I am fine")
+		fmt.Println("YESSS")
 	}
+	//err := bcrypt.CompareHashAndPassword([]byte(`$2a$14$iFltmkBEzTcuNVRWAPTJ2.gu7Y3O77FgADPrmCWkmtnnaa1MMkyta`), []byte(`surush`))
+	//if err != nil {
+	////	err = ErrInvalidPasswordOrLogin
+	//	fmt.Println(err)
+	//} else {
+	//	fmt.Println("I am fine")
+	//}
 
 //	fmt.Println()
 
@@ -64,6 +86,6 @@ func test()  {
 	//t := time.Now()
 	//rounded := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
 	//fmt.Println(rounded.Unix())
+//	fmt.Println(time.Now().Unix())
 
-	fmt.Println(time.Now().Unix())
 }

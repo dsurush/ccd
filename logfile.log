@@ -3338,3 +3338,160 @@
 2020-09-24 18:41:46: [127.0.0.1] login: surush Get user state by id:  Method: GET, path: /api/users/1/info
 2020-09-24 18:42:31: [127.0.0.1] login: surush Get user state by id:  Method: GET, path: /api/users/1/info
 2020-09-24 18:42:52: [127.0.0.1] login: surush Get user state by id:  Method: GET, path: /api/users/8/info
+2020-09-25 18:32:14: [127.0.0.1] login: shah Get user state:  Method: POST, path: /api/userstate
+2020-09-25 18:32:36: [127.0.0.1] login: surush Get user state:  Method: POST, path: /api/userstate
+2020-09-25 18:32:51: [127.0.0.1] login: surush Get user state:  Method: POST, path: /api/userstate
+2020-09-25 18:35:09: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-09-25 18:35:11: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:35:16: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:35:18: [127.0.0.1] login: surush Get user state by id:  Method: GET, path: /api/users/2/info
+2020-09-25 18:35:21: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:35:26: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:35:31: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:35:32: [127.0.0.1] login: surush Get user state by id:  Method: GET, path: /api/users/2/info
+2020-09-25 18:35:36: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:35:37: [127.0.0.1] login: surush Get user state by id:  Method: GET, path: /api/users/2/info
+2020-09-25 18:35:41: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:35:42: [127.0.0.1] login: surush Get user state by id:  Method: GET, path: /api/users/2/info
+2020-09-25 18:35:46: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:35:47: [127.0.0.1] login: surush Get user state by id:  Method: GET, path: /api/users/2/info
+2020-09-25 18:35:51: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:35:53: [127.0.0.1] login: surush Get user state by id:  Method: GET, path: /api/users/2/info
+2020-09-25 18:35:56: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:36:01: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:36:06: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:36:11: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:36:11: [127.0.0.1] login: surush Get users states:  Method: GET, path: /api/users-states
+2020-09-25 18:36:16: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:36:20: [127.0.0.1] login: surush Get users states:  Method: GET, path: /api/users-states
+2020-09-25 18:36:41: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:36:46: [127.0.0.1] login: surush Get user state by id:  Method: GET, path: /api/users/2/info
+2020-09-25 18:36:46: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:36:51: [127.0.0.1] login: surush Get user state by id:  Method: GET, path: /api/users/2/info
+2020-09-25 18:36:51: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:36:52: [127.0.0.1] login: surush Get user state by id:  Method: GET, path: /api/users/2/info
+2020-09-25 18:36:56: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:36:57: [127.0.0.1] login: surush Get user state by id:  Method: GET, path: /api/users/2/info
+2020-09-25 18:37:01: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:37:02: [127.0.0.1] login: surush Get user state by id:  Method: GET, path: /api/users/2/info
+2020-09-25 18:37:06: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:37:11: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:37:12: [127.0.0.1] login: surush Get user state by id:  Method: GET, path: /api/users/2/info
+2020-09-25 18:37:16: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:37:22: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:37:27: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:37:32: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:37:37: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:37:42: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:37:47: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:37:50: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-09-25 18:37:51: [127.0.0.1] login: shah Get user state:  Method: POST, path: /api/userstate
+2020-09-25 18:37:52: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:37:57: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:38:02: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:38:04: [127.0.0.1] login: shah Set click:  Method: POST, path: /api/click-state
+2020-09-25 18:38:07: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:38:09: [127.0.0.1] login: shah Set click:  Method: POST, path: /api/click-state
+2020-09-25 18:38:12: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:38:12: [127.0.0.1] login: shah Set click:  Method: POST, path: /api/click-state
+2020-09-25 18:38:15: [127.0.0.1] login: shah Get user state:  Method: POST, path: /api/userstate
+2020-09-25 18:38:17: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:38:20: [127.0.0.1] login: shah Get user state:  Method: POST, path: /api/userstate
+2020-09-25 18:38:21: [127.0.0.1] login: shah Get user state:  Method: POST, path: /api/userstate
+2020-09-25 18:38:22: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:38:27: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:38:32: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:43:22: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:43:27: [127.0.0.1] login: shah Set click:  Method: POST, path: /api/click-state
+2020-09-25 18:43:27: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:43:32: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:43:37: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:43:42: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:43:47: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:43:52: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:43:57: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:44:02: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:44:07: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:44:12: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:44:17: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:44:22: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:44:27: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:44:32: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:44:37: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:44:42: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:44:47: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:44:52: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:44:57: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:45:02: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:45:07: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:45:12: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:45:17: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:45:22: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:45:27: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:45:32: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:45:37: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:45:42: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:45:47: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:45:52: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:45:57: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:46:02: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:46:07: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:46:12: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:46:17: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:46:22: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:46:27: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:46:32: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:46:37: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:46:42: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:46:47: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:46:52: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:46:57: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:47:02: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:47:07: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:47:12: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:47:17: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:47:22: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:47:27: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:47:32: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:47:37: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:47:42: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:47:47: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:47:52: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:47:57: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:48:02: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:48:07: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:48:12: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:48:17: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:48:22: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:48:27: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:48:32: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:48:37: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:48:42: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:48:47: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:48:52: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:48:57: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:49:02: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:49:07: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:49:12: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:49:17: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:49:22: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:49:27: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:49:32: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:49:37: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:49:42: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:49:47: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:49:52: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:49:57: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:50:02: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:50:07: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:50:12: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:50:17: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:50:22: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:50:27: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:50:31: [127.0.0.1] login: surush Get all users:  Method: GET, path: /api/users
+2020-09-25 18:50:34: [127.0.0.1] login: shah Get all users:  Method: GET, path: /api/users
+2020-09-25 18:50:38: [127.0.0.1] login: shah Get all users:  Method: GET, path: /api/users
+2020-09-25 18:50:38: [127.0.0.1] login: shah Get all users:  Method: GET, path: /api/users
+2020-09-25 18:50:50: [127.0.0.1] login: shah Set click:  Method: POST, path: /api/click-state
+2020-09-25 18:50:54: [127.0.0.1] login: shah Set click:  Method: POST, path: /api/click-state
+2020-09-25 18:50:56: [127.0.0.1] login: shah Set click:  Method: POST, path: /api/click-state
