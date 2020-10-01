@@ -469,6 +469,25 @@ func (receiver *UserSvc) FixTimeLogin(id int64) (err error) {
 	return
 }
 
+//
+func (receiver *UserSvc) FixTimeLogout(id int64) (err error) {
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Printf("can't get connection %e", err)
+		return
+	}
+	defer conn.Release()
+	hour := fmt.Sprintf("%s:%s", strconv.Itoa(time.Now().Hour()), strconv.Itoa(time.Now().Minute()))
+	var hours []string
+	hours = append(hours, hour)
+	_, err = conn.Exec(context.Background(), FixLogoutTime, id, time.Now().Unix(), hours, time.Now())
+	if err != nil {
+		fmt.Printf(" Cant Get %e", err)
+		return
+	}
+	return
+}
+
 func (receiver *UserSvc) TestMe(time string) (Reports []models.Report, err error) {
 	conn, err := receiver.pool.Acquire(context.Background())
 	if err != nil {
