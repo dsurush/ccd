@@ -545,24 +545,24 @@ func (receiver *UserSvc) UpdateToFixLoginTime(id int64) (err error){
 	return nil
 }
 
-//func (receiver *UserSvc) UpdateToFixLogoutTime(id int64) (err error){
-//	conn, err := receiver.pool.Acquire(context.Background())
-//	if err != nil {
-//		log.Printf("can't get connection %e", err)
-//		return err
-//	}
-//	defer conn.Release()
-//	hour := fmt.Sprintf("%s:%s", strconv.Itoa(time.Now().Hour()), strconv.Itoa(time.Now().Minute()))
-//	sprintf := fmt.Sprintf("%s", time.Now())
-//	TimeDate := sprintf[0:10]
-//	fmt.Println(id, hour, TimeDate)
-//	_, err = conn.Exec(context.Background(), UpdateToFixLoginTime, hour, id, TimeDate)
-//	if err != nil {
-//		fmt.Printf(" Cant Update %e", err)
-//		return
-//	}
-//	return nil
-//}
+func (receiver *UserSvc) UpdateToFixLogoutTime(id int64) (err error){
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Printf("can't get connection %e", err)
+		return err
+	}
+	defer conn.Release()
+	hour := fmt.Sprintf("%s:%s", strconv.Itoa(time.Now().Hour()), strconv.Itoa(time.Now().Minute()))
+	sprintf := fmt.Sprintf("%s", time.Now())
+	TimeDate := sprintf[0:10]
+	fmt.Println(id, hour, TimeDate)
+	_, err = conn.Exec(context.Background(), UpdateToFixLogoutTime, hour, id, TimeDate)
+	if err != nil {
+		fmt.Printf(" Cant Update %e", err)
+		return
+	}
+	return nil
+}
 
 func (receiver *UserSvc) SetLoginTime(id int64) (err error) {
 	ok, err := receiver.CheckHasFixForToday(id)

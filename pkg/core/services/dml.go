@@ -57,3 +57,5 @@ const setUserPassByIdDML =  `Update users set password = ($1) where id = ($2)`
 const FixLoginTime = `Insert into "login_times"(user_id, day_date, login_date, time_date) values($1, $2, $3, $4)`
 
 const UpdateToFixLoginTime = `Update login_times set login_date = array_append(login_date, ($1)) where user_id = ($2) and time_date = ($3)`
+
+const UpdateToFixLogoutTime = `Update logout_times set logout_date = array_append(logout_date, ($1)) where user_id = ($2) and time_date = ($3)`
