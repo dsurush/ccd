@@ -657,7 +657,7 @@ func (receiver *UserSvc) GetReport(from, to string) (Reports []models.Report, er
 			&Report.LoginDate,
 			&Report.LogoutDate,
 			&Report.Work,
-			&Report.Rest,
+///			&Report.Rest,
 			&Report.Time)
 		if err != nil {
 			fmt.Println("can't scan err is = ", err)
