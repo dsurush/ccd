@@ -86,10 +86,10 @@ func test(server *MainServer)  {
 	//fmt.Println(rounded.Unix())
 //	fmt.Println(time.Now().Unix())
 //	server.svc.UpdateToFixLoginTime(`1`)
-	report, err := server.svc.GetReport("2020-08-01", `2020-12-30`)
-	if err != nil {
-		fmt.Println("XXXX")
-	} else {
-		fmt.Println(report)
-	}
+//	report, err := server.svc.GetReport("2020-08-01", `2020-12-30`)
+//	if err != nil {
+//		fmt.Println("XXXX")
+//	} else {
+//		fmt.Println(report)
+//	}
 }

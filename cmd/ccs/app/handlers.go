@@ -45,7 +45,7 @@ func (server *MainServer) LoginHandler(writer http.ResponseWriter, request *http
 		return
 	}
 	ok := models.CheckStatusLine(user.StatusLine)
-	if ok == false{
+	if ok == false && user.Role == "user"{
 		writer.WriteHeader(http.StatusIMUsed)
 		return
 	}
