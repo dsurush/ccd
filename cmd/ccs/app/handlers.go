@@ -34,8 +34,8 @@ func (server *MainServer) LoginHandler(writer http.ResponseWriter, request *http
 		}
 		return
 	}
-	const StatusLine = true
-	err = server.svc.SetStatusLine(requestBody.Username, StatusLine)
+	user, err := server.tokenSvc.FindUserForPassCheck(requestBody.Username)
+	//log.Println(response)
 	if err != nil {
 		writer.WriteHeader(http.StatusBadRequest)
 		err := json.NewEncoder(writer).Encode([]string{"err.password_mismatch", err.Error()})
@@ -44,8 +44,13 @@ func (server *MainServer) LoginHandler(writer http.ResponseWriter, request *http
 		}
 		return
 	}
-	user, err := server.tokenSvc.FindUserForPassCheck(requestBody.Username)
-	//log.Println(response)
+	ok := models.CheckStatusLine(user.StatusLine)
+	if ok == false{
+		writer.WriteHeader(http.StatusIMUsed)
+		return
+	}
+	const StatusLine = true
+	err = server.svc.SetStatusLine(requestBody.Username, StatusLine)
 	if err != nil {
 		writer.WriteHeader(http.StatusBadRequest)
 		err := json.NewEncoder(writer).Encode([]string{"err.password_mismatch", err.Error()})

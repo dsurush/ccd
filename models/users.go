@@ -58,3 +58,10 @@ type ChangePassword struct {
 	Password    string `json:"password"`
 	NewPassword string `json:"new_password"`
 }
+
+func CheckStatusLine(statusLine bool) (ok bool){
+	if statusLine == false {
+		return true
+	}
+	return false
+}
