@@ -522,7 +522,7 @@ func (receiver *UserSvc) TestMe(time string) (Reports []models.Report, err error
 			&Report.Surname,
 			&Report.LoginDate,
 			&Report.LogoutDate,
-			&Report.Sum,
+			&Report.Work,
 			&Report.Time)
 		if err != nil {
 			fmt.Println("can't scan err is = ", err)
@@ -656,7 +656,8 @@ func (receiver *UserSvc) GetReport(from, to string) (Reports []models.Report, er
 			&Report.Surname,
 			&Report.LoginDate,
 			&Report.LogoutDate,
-			&Report.Sum,
+			&Report.Work,
+			&Report.Rest,
 			&Report.Time)
 		if err != nil {
 			fmt.Println("can't scan err is = ", err)
