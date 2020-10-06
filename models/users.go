@@ -26,6 +26,7 @@ type UserDTO struct {
 	Status     bool   `json:"status"`
 	Position   string `json:"position"`
 	StatusLine bool   `json:"status_line"`
+	UnixTime int64 `json:"unix_time"`
 }
 
 type UserWithWorkTimeDTO struct {
@@ -40,6 +41,7 @@ type UserWithWorkTimeDTO struct {
 	Status     bool   `json:"status"`
 	Position   string `json:"position"`
 	StatusLine bool   `json:"status_line"`
+	UnixTime int64 `json:"unix_time"`
 	Worked     int64  `json:"worked"`
 	Rest       int64  `json:"rest"`
 }

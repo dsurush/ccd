@@ -3517,3 +3517,171 @@
 2020-10-02 16:47:52: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
 2020-10-02 18:42:31: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
 2020-10-02 18:42:52: [127.0.0.1] login: surush Get user state by id:  Method: GET, path: /api/report
+2020-10-02 18:49:21: [192.168.1.4] login:  Create Token for user:  Method: POST, path: /api/login
+2020-10-02 18:49:24: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:49:26: [192.168.1.4] login: surush Get report:  Method: GET, path: /api/report
+2020-10-02 18:49:29: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:49:34: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:49:39: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:49:44: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:49:49: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:49:54: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:49:59: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:50:04: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:50:09: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:50:14: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:50:19: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:50:24: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:50:29: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:50:34: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:50:38: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:50:39: [192.168.1.4] login: surush Get report:  Method: GET, path: /api/report
+2020-10-02 18:50:43: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:50:48: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:50:53: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:50:59: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:51:00: [192.168.1.4] login: surush Get report:  Method: GET, path: /api/report
+2020-10-02 18:51:04: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:51:09: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:51:14: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:51:16: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:51:17: [192.168.1.4] login: surush Get report:  Method: GET, path: /api/report
+2020-10-02 18:51:21: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:51:26: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:51:31: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:51:36: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:51:41: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:51:46: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:51:51: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:51:56: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:52:01: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:52:06: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:52:11: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:52:16: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:52:21: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:52:26: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:52:31: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:52:36: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:52:42: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:52:46: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:52:51: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:52:56: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:53:01: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:53:07: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:53:12: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:53:17: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:53:23: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:53:27: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:53:32: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:53:37: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:53:42: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:53:47: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:53:52: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 18:53:57: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:16:58: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:01: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:02: [192.168.1.4] login: surush Get report:  Method: GET, path: /api/report
+2020-10-02 19:17:02: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:07: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:09: [192.168.1.4] login:  Create Token for user:  Method: POST, path: /api/login
+2020-10-02 19:17:12: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:12: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:17: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:17: [192.168.1.4] login: surush Get report:  Method: GET, path: /api/report
+2020-10-02 19:17:17: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:22: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:22: [127.0.0.1] login: surush Get report:  Method: GET, path: /api/report
+2020-10-02 19:17:22: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:27: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:27: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:32: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:32: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:37: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:37: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:42: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:42: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:47: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:47: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:52: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:52: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:57: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:17:57: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:02: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:02: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:07: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:07: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:12: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:12: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:17: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:17: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:22: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:22: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:27: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:27: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:32: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:32: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:37: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:37: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:42: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:42: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:47: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:47: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:52: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:52: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:57: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:18:57: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:02: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:02: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:07: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:08: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:12: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:12: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:17: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:17: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:22: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:22: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:27: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:27: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:32: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:33: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:37: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:37: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:42: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:42: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:47: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:47: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:52: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:57: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:19:57: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:20:02: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:20:02: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:20:07: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:20:07: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:20:13: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:20:13: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:20:15: [192.168.1.4] login: surush Get report:  Method: GET, path: /api/report
+2020-10-02 19:20:17: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:20:18: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:20:22: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:20:23: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:20:27: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-02 19:20:28: [192.168.1.4] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-06 14:51:25: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-10-06 14:51:45: [127.0.0.1] login: surush Get user by id:  Method: GET, path: /api/users/8
+2020-10-06 14:51:49: [127.0.0.1] login: surush Get user by id:  Method: GET, path: /api/users/2
+2020-10-06 14:53:15: [127.0.0.1] login: surush Get user by id:  Method: GET, path: /api/users/3
+2020-10-06 14:59:27: [127.0.0.1] login: surush Get user by id:  Method: GET, path: /api/users/2
+2020-10-06 14:59:32: [127.0.0.1] login: surush Get user by id:  Method: GET, path: /api/users/3
+2020-10-06 15:01:09: [127.0.0.1] login: surush Get user by id:  Method: GET, path: /api/users/3
+2020-10-06 15:10:51: [127.0.0.1] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-06 15:28:46: [127.0.0.1] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-06 15:29:47: [127.0.0.1] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-06 15:49:26: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-10-06 15:49:32: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-10-06 15:50:22: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-10-06 15:50:39: [127.0.0.1] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-06 15:53:57: [127.0.0.1] login: shah Exit click:  Method: POST, path: /api/exit
+2020-10-06 15:54:09: [127.0.0.1] login: surush Get user by id:  Method: GET, path: /api/user-worktime
+2020-10-06 16:17:26: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-10-06 16:18:19: [127.0.0.1] login:  Create Token for user:  Method: POST, path: /api/login
+2020-10-06 16:21:13: [127.0.0.1] login: surush Get user by id:  Method: GET, path: /api/user-worktime

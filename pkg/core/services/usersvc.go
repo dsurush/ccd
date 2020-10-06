@@ -68,7 +68,9 @@ func (receiver *UserSvc) GetUserById(id string) (User models.UserDTO, err error)
 		&User.Role,
 		&User.Status,
 		&User.Position,
-		&User.StatusLine)
+		&User.StatusLine,
+		&User.UnixTime,
+		)
 	if err != nil {
 		fmt.Printf("Can't scan %e", err)
 	}
@@ -101,7 +103,9 @@ func (receiver *UserSvc) GetUsers() (Users []models.UserDTO, err error) {
 			&User.Role,
 			&User.Status,
 			&User.Position,
-			&User.StatusLine)
+			&User.StatusLine,
+			&User.UnixTime,
+			)
 		if err != nil {
 			fmt.Println("can't scan err is = ", err)
 		}
@@ -143,6 +147,7 @@ func (receiver *UserSvc) GetUsersWithWorkTime() (Users []models.UserWithWorkTime
 			&User.Status,
 			&User.Position,
 			&User.StatusLine,
+			&User.UnixTime,
 			&User.Worked,
 			&User.Rest)
 		if err != nil {
@@ -386,7 +391,6 @@ func (receiver *UserSvc) SetStatusLine(login string, statusLine bool) (err error
 	}
 	return nil
 }
-
 //
 func (receiver *UserSvc) SetStatusLineById(id string, statusLine bool) (err error) {
 	conn, err := receiver.pool.Acquire(context.Background())
@@ -403,7 +407,6 @@ func (receiver *UserSvc) SetStatusLineById(id string, statusLine bool) (err erro
 	}
 	return nil
 }
-
 ///
 func (receiver *UserSvc) SetStatusById(id string, status bool) (err error) {
 	conn, err := receiver.pool.Acquire(context.Background())
@@ -420,8 +423,6 @@ func (receiver *UserSvc) SetStatusById(id string, status bool) (err error) {
 	}
 	return nil
 }
-
-
 
 func (receiver *UserSvc) ExitClick(id string, State models.StatesDTO) (err error){
 	const StatusFalse = false
@@ -478,7 +479,6 @@ func (receiver *UserSvc) FixTimeLogin(id int64) (err error) {
 	}
 	return
 }
-
 //
 func (receiver *UserSvc) FixTimeLogout(id int64) (err error) {
 	conn, err := receiver.pool.Acquire(context.Background())
@@ -535,6 +535,7 @@ func (receiver *UserSvc) TestMe(time string) (Reports []models.Report, err error
 	}
 	return
 }
+
 func (receiver *UserSvc) CheckHasFixForToday(id int64) (ok bool, err error){
 	conn, err := receiver.pool.Acquire(context.Background())
 	if err != nil {
@@ -548,7 +549,7 @@ func (receiver *UserSvc) CheckHasFixForToday(id int64) (ok bool, err error){
 	var idNew int64
 	_ = conn.QueryRow(context.Background(), `Select id from login_times where 
 user_id = ($1) and time_date = ($2)`, id, TimeDate).Scan(&idNew)
-	fmt.Println("I am newID = (%d)", idNew)
+	fmt.Println("I am newID = ", idNew)
 	if idNew == 0{
 		return false, nil
 	}
@@ -667,6 +668,47 @@ func (receiver *UserSvc) GetReport(from, to string) (Reports []models.Report, er
 	if rows.Err() != nil {
 		log.Printf("rows err %s", err)
 		return nil, rows.Err()
+	}
+	return
+}
+
+
+func (receiver *UserSvc) CheckHasUserVisitTime(id int64) (err error){
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Printf("can't get connection %e", err)
+		return err
+	}
+	defer conn.Release()
+	var idNew int64
+	_ = conn.QueryRow(context.Background(), `Select id from visit_times where 
+user_id = ($1)`, id).Scan(&idNew)
+	fmt.Println("I am newID = ", idNew)
+	if idNew == 0{
+		_, err = conn.Exec(context.Background(), `Insert into "visit_times"(user_id, unix_date) values(($1), ($2))`, id, time.Now().Unix())
+		if err != nil {
+			fmt.Printf(" Cant Get %e", err)
+			return
+		}
+	}
+	return
+}
+
+func (receiver *UserSvc) SetVisitTime(id int64) (err error) {
+	err = receiver.CheckHasUserVisitTime(id)
+	if err != nil {
+		return
+	}
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Printf("can't get connection %e", err)
+		return
+	}
+	defer conn.Release()
+	_, err = conn.Exec(context.Background(), FixVisitTime, time.Now().Unix(), id)
+	if err != nil {
+		fmt.Printf(" Cant Get %e", err)
+		return
 	}
 	return
 }

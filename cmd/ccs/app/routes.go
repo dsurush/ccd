@@ -51,6 +51,14 @@ func test(server *MainServer)  {
 	//} else {
 	//	fmt.Println("xuynya")
 	//}
+	//day := models.GetUnixTimeStartOfDay(time.Now())
+	//fmt.Println(day)
+	//err := server.svc.SetVisitTime(`2`)
+	//if err != nil {
+	//	fmt.Println("pizda")
+	//} else {
+	//	fmt.Println("Uspeshno")
+	//}
 	//
 	//sprintf := fmt.Sprintf("%s", time.Now())
 	//fmt.Println(sprintf[0:10], "|", "+")

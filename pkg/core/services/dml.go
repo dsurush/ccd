@@ -1,10 +1,19 @@
 package services
 
-const getUserByIdDML = `Select id, name, surname, lastname, login, phone, role, status, position, status_line from users where id = ($1)`
+//const getUserByIdDML = `Select id, name, surname, lastname, login, phone, role, status, position, status_line from users where id = ($1)`
+const getUserByIdDML = `Select us.id, us.name, us.surname, us.lastname, us.login, us.phone, us.role, us.status, us.position, 
+us.status_line, coalesce(st.unix_date, 0)
+from users as us 
+left join visit_times as st on us.id = st.user_id
+Where us.id = ($1)`
 
-const getUsersDML = `Select id, name, surname, lastname, login, phone, role, status, position, status_line from users`
+//const getUsersDML = `Select id, name, surname, lastname, login, phone, role, status, position, status_line from users`
+const getUsersDML = `Select us.id, us.name, us.surname, us.lastname, us.login, us.phone, us.role, us.status, us.position, 
+us.status_line, coalesce(st.unix_date, 0)
+from users as us left join visit_times as st
+on us.id = st.user_id;`
 //get Users
-const getUsersWithWorkTimeDML = `SELECT us.id,
+/*const getUsersWithWorkTimeDML = `SELECT us.id,
     us.name,
     us.surname,
     us.lastname,
@@ -20,7 +29,26 @@ const getUsersWithWorkTimeDML = `SELECT us.id,
     ( SELECT COALESCE(sum(states.work_time), 0::bigint) AS sum
            FROM states
           WHERE states.user_id = us.id AND states.status = true AND states.unix_date > ($2)) AS rest
-   FROM users us`
+   FROM users us` */
+const getUsersWithWorkTimeDML = `SELECT us.id,
+    us.name,
+    us.surname,
+    us.lastname,
+    us.login,
+    us.phone,
+    us.role,
+    us.status,
+    us."position",
+    us.status_line,
+	coalesce(st.unix_date, 0) as unix_time,
+    ( SELECT COALESCE(sum(st.work_time), 0::bigint) AS sum
+           FROM states st
+          WHERE st.user_id = us.id AND st.status = false AND st.unix_date > ($1)) AS worked,
+    ( SELECT COALESCE(sum(states.work_time), 0::bigint) AS sum
+           FROM states
+          WHERE states.user_id = us.id AND states.status = true AND states.unix_date > ($2)) AS rest
+   FROM users us left join visit_times as st
+on us.id = st.user_id;`
 
 const userSaveDML= `Insert into "users"(name, surname, lastname, login, password, phone, position) values($1, $2, $3, $4, $5, $6, $7)`
 
@@ -61,3 +89,5 @@ const FixLogoutTime = `Insert into "login_times"(user_id, day_date, logout_date,
 const UpdateToFixLoginTime = `Update login_times set login_date = array_append(login_date, ($1)) where user_id = ($2) and time_date = ($3)`
 
 const UpdateToFixLogoutTime = `Update login_times set logout_date = array_append(logout_date, ($1)) where user_id = ($2) and time_date = ($3)`
+
+const FixVisitTime = `Update visit_times set unix_date = ($1) where user_id = ($2)`
