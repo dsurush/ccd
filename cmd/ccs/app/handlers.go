@@ -202,6 +202,22 @@ func (server *MainServer) SetStateAndDateHandler(writer http.ResponseWriter, req
 		writer.WriteHeader(http.StatusBadRequest)
 		return
 	}
+	atoi, err := strconv.Atoi(ID)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.can't conver id from string", err.Error()})
+		if err != nil {
+			log.Print(err)
+		}
+	}
+	err = server.svc.SetVisitTime(int64(atoi))
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.can't fix Visit times", err.Error()})
+		if err != nil {
+			log.Print(err)
+		}
+	}
 
 	return
 }
