@@ -121,13 +121,22 @@ func (server *MainServer) GetUsersHandler(writer http.ResponseWriter, _ *http.Re
 //Get users with work time
 func (server *MainServer) GetUsersWithWorkTimeHandler(writer http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+	//TODO: REFACTOR
+	type UsersTimeResponse struct {
+		Users []models.UserWithWorkTimeDTO `json:"users"`
+		TimeUnix int64 `json:"time_unix"`
+	}
+	var res UsersTimeResponse
+	res.TimeUnix = time.Now().Unix()
+	//
 	response, err := server.svc.GetUsersWithWorkTime()
+	res.Users = response
 	if err != nil {
 		fmt.Println("can't take from db")
 		writer.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	err = json.NewEncoder(writer).Encode(&response)
+	err = json.NewEncoder(writer).Encode(&res)
 	if err != nil {
 		log.Print(err)
 	}
@@ -384,17 +393,26 @@ func (server *MainServer) ExitClickHandler(writer http.ResponseWriter, request *
 func (server *MainServer) ReportHandler(writer http.ResponseWriter, request *http.Request, pr httprouter.Params) {
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 
+	//TODO: REFACTOR
+	type ReportResponse struct {
+		Reports []models.Report `json:"reports"`
+		TimeUnix int64 `json:"time_unix"`
+	}
+	var res ReportResponse
+	res.TimeUnix = time.Now().Unix()
+	//
 	from := request.URL.Query().Get(`from`)
 	to := request.URL.Query().Get(`to`)
 
 	response, err := server.svc.GetReport(from, to)
+	res.Reports = response
 	if err != nil {
 		writer.WriteHeader(http.StatusBadRequest)
 		err := json.NewEncoder(writer).Encode([]string{"err.json_invalid"})
 		log.Print(err)
 		return
 	}
-	err = json.NewEncoder(writer).Encode(&response)
+	err = json.NewEncoder(writer).Encode(&res)
 	if err != nil {
 		log.Print(err)
 		return
