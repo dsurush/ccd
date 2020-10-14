@@ -345,6 +345,7 @@ func (server *MainServer) ExitClickHandler(writer http.ResponseWriter, request *
 	err := json.NewDecoder(request.Body).Decode(&requestBody)
 	if err != nil {
 		writer.WriteHeader(http.StatusBadRequest)
+		fmt.Println("json_invalie")
 		err := json.NewEncoder(writer).Encode([]string{"err.json_invalid"})
 		log.Print(err)
 		return
@@ -398,4 +399,29 @@ func (server *MainServer) ReportHandler(writer http.ResponseWriter, request *htt
 		log.Print(err)
 		return
 	}
+}
+func (server *MainServer) StatusConfirmHandler(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
+	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+	var requestBody models.StatusConfirm
+	err := json.NewDecoder(request.Body).Decode(&requestBody)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.json_invalid"})
+		log.Print(err)
+		return
+	}
+	fmt.Println("im id in handler", requestBody)
+	//TODO INSERT AND UPDATE
+	ID := request.Header.Get(`ID`)
+	fmt.Println("im id in handler", ID)
+	userId, err := strconv.Atoi(ID)
+
+	err = server.svc.SetActivities(int64(userId), requestBody)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.server_connection"})
+		log.Print(err)
+		return
+	}
+	return
 }

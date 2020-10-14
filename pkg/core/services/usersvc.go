@@ -643,7 +643,7 @@ func (receiver *UserSvc) GetReport(from, to string) (Reports []models.Report, er
 		return
 	}
 	defer conn.Release()
-	rows, err := conn.Query(context.Background(), `SELECT * FROM public.report where time_date >= ($1) and time_date <= ($2)`, from, to)
+	rows, err := conn.Query(context.Background(), `SELECT * FROM public.total_report where time_date >= ($1) and time_date <= ($2)`, from, to)
 	if err != nil {
 		fmt.Printf("can't read user rows %e", err)
 		return
@@ -655,10 +655,11 @@ func (receiver *UserSvc) GetReport(from, to string) (Reports []models.Report, er
 		err := rows.Scan(
 			&Report.Name,
 			&Report.Surname,
+			&Report.Position,
 			&Report.LoginDate,
 			&Report.LogoutDate,
 			&Report.Work,
-///			&Report.Rest,
+			&Report.Rest,
 			&Report.Time)
 		if err != nil {
 			fmt.Println("can't scan err is = ", err)
@@ -671,7 +672,6 @@ func (receiver *UserSvc) GetReport(from, to string) (Reports []models.Report, er
 	}
 	return
 }
-
 
 func (receiver *UserSvc) CheckHasUserVisitTime(id int64) (err error){
 	conn, err := receiver.pool.Acquire(context.Background())
@@ -709,6 +709,72 @@ func (receiver *UserSvc) SetVisitTime(id int64) (err error) {
 	if err != nil {
 		fmt.Printf(" Cant Get %e", err)
 		return
+	}
+	return
+}
+
+func (receiver *UserSvc) CheckHasActivity(userId int64) (idNew int64, err error){
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Printf("can't get connection %e", err)
+		return 0, err
+	}
+	defer conn.Release()
+	_ = conn.QueryRow(context.Background(), `Select id from activities where 
+user_id = ($1)`, userId).Scan(&idNew)
+	fmt.Println("I am newID = ", idNew)
+	return
+}
+
+func (receiver *UserSvc) InsertActivities(userId int64, Date models.StatusConfirm) (err error) {
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Printf("can't get connection %e", err)
+		return err
+	}
+	defer conn.Release()
+	_, err = conn.Exec(context.Background(), `Insert into "activities"(user_id, token, unix_time, status, work_time, exited) values(($1), ($2), ($3), ($4), ($5), ($6))`,
+		userId, Date.Token, time.Now().Unix(), Date.Status, Date.Time, false)
+	if err != nil {
+		fmt.Printf(" Cant Get %e", err)
+		return
+	}
+	return
+}
+
+func (receiver *UserSvc) UpdateActivities(userId int64, Date models.StatusConfirm) (err error) {
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Printf("can't get connection %e", err)
+		return
+	}
+	defer conn.Release()
+	_, err = conn.Exec(context.Background(), `Update activities set token = ($1), unix_time = ($2), status = ($3),
+work_time = ($4), exited = ($5) where user_id = ($6)`, Date.Token, time.Now().Unix(), Date.Status, Date.Time, false, userId)
+	if err != nil {
+		fmt.Printf(" Cant Get %e", err)
+		return
+	}
+	return
+}
+
+
+func (receiver *UserSvc) SetActivities(userId int64, Date models.StatusConfirm) (err error){
+	newId, err := receiver.CheckHasActivity(userId)
+	if err != nil {
+		fmt.Println("Can't check Has Activity")
+		return
+	}
+	if newId == 0{
+		err := receiver.InsertActivities(userId, Date)
+		if err != nil {
+			fmt.Println("Can't insert new userId in activities")
+		}
+	} else {
+		err := receiver.UpdateActivities(userId, Date)
+		if err != nil {
+			fmt.Println("Can't Update activities")
+		}
 	}
 	return
 }

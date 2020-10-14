@@ -61,6 +61,12 @@ type ChangePassword struct {
 	NewPassword string `json:"new_password"`
 }
 
+type StatusConfirm struct {
+	Status bool `json:"status"`
+	Time int64 `json:"time"`
+	Token string `json:"token"`
+}
+
 func CheckStatusLine(statusLine bool) (ok bool){
 	if statusLine == false {
 		return true

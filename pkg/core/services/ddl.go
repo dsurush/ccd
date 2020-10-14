@@ -30,3 +30,13 @@ const createFixLogTimeDDL = `create table if not exists login_times (
 	login_date text[] not null,
 	logout_date text[] not null
 );`
+
+const createActivitiesDDL = `create table if not exists activities (
+	id bigserial primary key not null,
+	user_id bigint not null references users (id),
+	token string not null,
+	unix_time bigint not null,
+	status bool not null, 
+	work_time bigint not null,
+	exited bool not null
+);`

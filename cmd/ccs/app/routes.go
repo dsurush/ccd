@@ -5,6 +5,7 @@ import (
 	"ccs/middleware/corss"
 	"ccs/middleware/jwt"
 	"ccs/middleware/logger"
+	"ccs/pkg/core/services"
 	"ccs/settings"
 	"ccs/token"
 	"fmt"
@@ -18,8 +19,8 @@ func (server *MainServer) InitRoutes() {
 	fmt.Println("Init routes")
 	test(server)
 	server.router.POST("/api/login", logger.Logger(`Create Token for user: `)(corss.Middleware(server.LoginHandler)))
-
-	server.router.GET(`/api/users`, logger.Logger(`Get all users: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`}, jwt.FromContext)(server.GetUsersHandler)))))
+	server.router.GET(`/api/users`, server.GetUsersHandler)
+	//server.router.GET(`/api/users`, logger.Logger(`Get all users: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`}, jwt.FromContext)(server.GetUsersHandler)))))
 	//  Список user - ов с рабочим временем
 	server.router.GET(`/api/user-worktime`, logger.Logger(`Get user by id: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`}, jwt.FromContext)(server.GetUsersWithWorkTimeHandler)))))
 
@@ -35,6 +36,8 @@ func (server *MainServer) InitRoutes() {
 	server.router.GET(`/api/users/:id/info`, logger.Logger(`Get user state by id: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`, `user`}, jwt.FromContext)(server.GetUserStatsForAdminHandler)))))
 	server.router.GET(`/api/report`, logger.Logger(`Get report: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`, `user`}, jwt.FromContext)(server.ReportHandler)))))
 	server.router.POST(`/api/settings/change-password`, logger.Logger(`Change pass: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`, `user`}, jwt.FromContext)(server.SetNewPassHandler)))))
+
+	server.router.POST(`/api/status-confirm`, logger.Logger(`Status confirm: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`, `user`}, jwt.FromContext)(server.StatusConfirmHandler)))))
 
 	server.router.POST(`/api/exit`, logger.Logger(`Exit click: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`, `user`}, jwt.FromContext)(server.ExitClickHandler)))))
 
@@ -100,4 +103,10 @@ func test(server *MainServer)  {
 //	} else {
 //		fmt.Println(report)
 //	}
+	password, err := services.HashPassword(`0089`)
+	if err != nil {
+		fmt.Println(`xaxa`)
+	} else {
+		fmt.Println(password)
+	}
 }
