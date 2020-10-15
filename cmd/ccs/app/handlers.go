@@ -441,5 +441,22 @@ func (server *MainServer) StatusConfirmHandler(writer http.ResponseWriter, reque
 		log.Print(err)
 		return
 	}
+	User, err := server.svc.GetUserById(ID)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.server_connection"})
+		log.Print(err)
+		return
+	}
+	type status struct {
+		StatusLine bool `json:"status_line"`
+	}
+	var res status
+	res.StatusLine = User.StatusLine
+	err = json.NewEncoder(writer).Encode(&res)
+	if err != nil {
+		log.Print(err)
+		return
+	}
 	return
 }
