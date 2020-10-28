@@ -225,6 +225,20 @@ func (receiver *UserSvc) SetStateAndDate(State models.StatesDTO, id string) (err
 	defer conn.Release()
 	fmt.Println("ID = ", id)
 	atoi, err := strconv.Atoi(id)
+	//
+	timeNowUnix := models.GetUnixTimeStartOfDay(time.Now())
+	stats, err := receiver.GetUserStats(id, timeNowUnix)
+	if err != nil {
+		fmt.Println("can't get userState")
+		return
+	}
+	lengthOfStats := len(stats)
+	if lengthOfStats > 0 && State.Time > 0 {
+		DifferenceTimeByClick := time.Now().Unix() - stats[lengthOfStats - 1].UnixDate
+		State.Time = DifferenceTimeByClick
+	}
+	//
+
 	if err != nil {
 		fmt.Println("can't conver to Int")
 		return
@@ -450,15 +464,20 @@ func (receiver *UserSvc) ExitClick(id string, State models.StatesDTO) (err error
 	}
 	atoi, err := strconv.Atoi(id)
 	if err != nil {
-		fmt.Println("can't conver id")
+		fmt.Println("can't convert id")
 		return
 	}
 	err = receiver.SetLogoutTime(int64(atoi))
 	if err != nil {
-		fmt.Println("can't add changeп")
+		fmt.Println("can't add change")
 		return
 	}
 	//
+	err = receiver.SubmitStatusTrue(int64(atoi))
+	if err != nil {
+		fmt.Println("can't add change")
+		return
+	}
 	return
 }
 
@@ -775,6 +794,20 @@ func (receiver *UserSvc) SetActivities(userId int64, Date models.StatusConfirm) 
 		if err != nil {
 			fmt.Println("Can't Update activities")
 		}
+	}
+	return
+}
+
+func (receiver *UserSvc) SubmitStatusTrue(userId int64) (err error){
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Printf("can't get connection %e", err)
+	}
+	defer conn.Release()
+	_, err = conn.Exec(context.Background(), `Update activities set exited = true where user_id = ($1)`, userId)
+	if err != nil {
+		fmt.Printf(" Cant Update %e", err)
+		return
 	}
 	return
 }

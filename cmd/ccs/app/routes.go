@@ -40,6 +40,7 @@ func (server *MainServer) InitRoutes() {
 	server.router.POST(`/api/status-confirm`, logger.Logger(`Status confirm: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`, `user`}, jwt.FromContext)(server.StatusConfirmHandler)))))
 
 	server.router.POST(`/api/exit`, logger.Logger(`Exit click: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`, `user`}, jwt.FromContext)(server.ExitClickHandler)))))
+	server.router.POST(`/api/users/exit/:id`, logger.Logger(`Exit click by Admin: `)(corss.Middleware(jwt.JWT(reflect.TypeOf((*token.Payload)(nil)).Elem(), []byte(`surush`))(authorized.Authorized([]string{`admin`, `user`}, jwt.FromContext)(server.ExitClickFromAdminHandler)))))
 
 	settings.AppSettings = settings.ReadSettings("./settings.json")
 	port := fmt.Sprintf(":%d", settings.AppSettings.AppParams.PortRun)

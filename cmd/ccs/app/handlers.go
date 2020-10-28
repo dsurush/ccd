@@ -387,6 +387,45 @@ func (server *MainServer) ExitClickHandler(writer http.ResponseWriter, request *
 			log.Print(err)
 		}
 	}
+
+	return
+}
+//
+func (server *MainServer) ExitClickFromAdminHandler(writer http.ResponseWriter, request *http.Request, pr httprouter.Params) {
+	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+	var requestBody models.StatesDTO
+	err := json.NewDecoder(request.Body).Decode(&requestBody)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		fmt.Println("json_invalie")
+		err := json.NewEncoder(writer).Encode([]string{"err.json_invalid"})
+		log.Print(err)
+		return
+	}
+	ID := pr.ByName(`id`)
+
+	err = server.svc.ExitClick(ID, requestBody)
+	if err != nil {
+		//	fmt.Println("Err to add new user")
+		writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	atoi, err := strconv.Atoi(ID)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.can't conver id from string", err.Error()})
+		if err != nil {
+			log.Print(err)
+		}
+	}
+	err = server.svc.SetVisitTime(int64(atoi))
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.can't fix Visit times", err.Error()})
+		if err != nil {
+			log.Print(err)
+		}
+	}
 	return
 }
 //
@@ -433,14 +472,6 @@ func (server *MainServer) StatusConfirmHandler(writer http.ResponseWriter, reque
 	ID := request.Header.Get(`ID`)
 	fmt.Println("im id in handler", ID)
 	userId, err := strconv.Atoi(ID)
-
-	err = server.svc.SetActivities(int64(userId), requestBody)
-	if err != nil {
-		writer.WriteHeader(http.StatusBadRequest)
-		err := json.NewEncoder(writer).Encode([]string{"err.server_connection"})
-		log.Print(err)
-		return
-	}
 	User, err := server.svc.GetUserById(ID)
 	if err != nil {
 		writer.WriteHeader(http.StatusBadRequest)
@@ -448,6 +479,16 @@ func (server *MainServer) StatusConfirmHandler(writer http.ResponseWriter, reque
 		log.Print(err)
 		return
 	}
+	if User.StatusLine{
+		err = server.svc.SetActivities(int64(userId), requestBody)
+		if err != nil {
+			writer.WriteHeader(http.StatusBadRequest)
+			err := json.NewEncoder(writer).Encode([]string{"err.server_connection"})
+			log.Print(err)
+			return
+		}
+	}
+
 	type status struct {
 		StatusLine bool `json:"status_line"`
 	}
