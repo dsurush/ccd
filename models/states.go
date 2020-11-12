@@ -5,6 +5,7 @@ import "time"
 type StatesDTO struct {
 	Time   int64 `json:"time"`
 	Status bool  `json:"status"`
+	IsLogin bool `json:"is_login"`
 }
 
 type State struct {

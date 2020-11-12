@@ -246,7 +246,9 @@ func (server *MainServer) GetUserStatsHandler(writer http.ResponseWriter, reques
 	}
 	ID := request.Header.Get(`ID`)
 	requestBody.Time /= 1000
-	fmt.Println("IIIIDDDD = is ", ID)
+//	fmt.Println("IIIIDDDD = is ", ID)
+	day := models.GetUnixTimeStartOfDay(time.Now())
+	requestBody.Time = day
 	fmt.Println("TIMEEE + IS ", requestBody.Time)
 	response, err := server.svc.GetUserStats(ID, requestBody.Time)
 	if err != nil {
@@ -347,8 +349,59 @@ func (server *MainServer) SetNewPassHandler(writer http.ResponseWriter, request 
 
 func (server *MainServer) ExitClickHandler(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+	var requestBody models.StatesDTO
+	ID := request.Header.Get(`ID`)
+	fmt.Println("im id in handler", ID)
 
-	//
+	user, err := server.svc.GetUserById(ID)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.cant_get_fromDB"})
+		log.Print(err)
+		return
+	}
+	if user.StatusLine == false {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.user_exited"})
+		log.Print(err)
+		return
+	}
+
+	err = json.NewDecoder(request.Body).Decode(&requestBody)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		fmt.Println("json_invalie")
+		err := json.NewEncoder(writer).Encode([]string{"err.json_invalid"})
+		log.Print(err)
+		return
+	}
+	err = server.svc.ExitClick(ID, requestBody)
+	if err != nil {
+		//	fmt.Println("Err to add new user")
+		writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	atoi, err := strconv.Atoi(ID)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.can't conver id from string", err.Error()})
+		if err != nil {
+			log.Print(err)
+		}
+	}
+	err = server.svc.SetVisitTime(int64(atoi))
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.can't fix Visit times", err.Error()})
+		if err != nil {
+			log.Print(err)
+		}
+	}
+
+	return
+}
+//
+func (server *MainServer) ExitClickFromAdminHandler(writer http.ResponseWriter, request *http.Request, pr httprouter.Params) {
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 	var requestBody models.StatesDTO
 	err := json.NewDecoder(request.Body).Decode(&requestBody)
@@ -359,12 +412,20 @@ func (server *MainServer) ExitClickHandler(writer http.ResponseWriter, request *
 		log.Print(err)
 		return
 	}
-	ID := request.Header.Get(`ID`)
-	fmt.Println("im id in handler", ID)
-
-	//
-	/// ---- ////
-
+	ID := pr.ByName(`id`)
+	user, err := server.svc.GetUserById(ID)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.cant_get_fromDB"})
+		log.Print(err)
+		return
+	}
+	if user.StatusLine == false {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.user_exited"})
+		log.Print(err)
+		return
+	}
 	err = server.svc.ExitClick(ID, requestBody)
 	if err != nil {
 		//	fmt.Println("Err to add new user")

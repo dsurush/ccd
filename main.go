@@ -57,17 +57,7 @@ func main() {
 		}
 		w.WriteHeader(http.StatusNoContent)
 	})
-	//interval := models.TimeInterval{
-	//	From: 1598898032,
-	//	To:   time.Now().Unix(),
-	//}
-	//stats, err := svc.GetUsersStats(interval)
-	//if err != nil {
-	//	fmt.Println("MAIN SUKA")
-	//} else {
-	//	fmt.Println("stats = ", stats)
-	//}
-	//fmt.Println(interval.To)
+
 	password, err := HashPassword("surush")
 	fmt.Println("Im pass = ", password)
 	server := app.NewMainServer(router, pool, svc, tokenSvc)
