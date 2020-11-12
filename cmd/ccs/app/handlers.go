@@ -452,43 +452,43 @@ func (server *MainServer) ExitClickFromAdminHandler(writer http.ResponseWriter, 
 	return
 }
 //
-func (server *MainServer) ExitClickFromAdminHandler(writer http.ResponseWriter, request *http.Request, pr httprouter.Params) {
-	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
-	var requestBody models.StatesDTO
-	err := json.NewDecoder(request.Body).Decode(&requestBody)
-	if err != nil {
-		writer.WriteHeader(http.StatusBadRequest)
-		fmt.Println("json_invalie")
-		err := json.NewEncoder(writer).Encode([]string{"err.json_invalid"})
-		log.Print(err)
-		return
-	}
-	ID := pr.ByName(`id`)
-
-	err = server.svc.ExitClick(ID, requestBody)
-	if err != nil {
-		//	fmt.Println("Err to add new user")
-		writer.WriteHeader(http.StatusBadRequest)
-		return
-	}
-	atoi, err := strconv.Atoi(ID)
-	if err != nil {
-		writer.WriteHeader(http.StatusBadRequest)
-		err := json.NewEncoder(writer).Encode([]string{"err.can't conver id from string", err.Error()})
-		if err != nil {
-			log.Print(err)
-		}
-	}
-	err = server.svc.SetVisitTime(int64(atoi))
-	if err != nil {
-		writer.WriteHeader(http.StatusBadRequest)
-		err := json.NewEncoder(writer).Encode([]string{"err.can't fix Visit times", err.Error()})
-		if err != nil {
-			log.Print(err)
-		}
-	}
-	return
-}
+//func (server *MainServer) ExitClickFromAdminHandler(writer http.ResponseWriter, request *http.Request, pr httprouter.Params) {
+//	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+//	var requestBody models.StatesDTO
+//	err := json.NewDecoder(request.Body).Decode(&requestBody)
+//	if err != nil {
+//		writer.WriteHeader(http.StatusBadRequest)
+//		fmt.Println("json_invalie")
+//		err := json.NewEncoder(writer).Encode([]string{"err.json_invalid"})
+//		log.Print(err)
+//		return
+//	}
+//	ID := pr.ByName(`id`)
+//
+//	err = server.svc.ExitClick(ID, requestBody)
+//	if err != nil {
+//		//	fmt.Println("Err to add new user")
+//		writer.WriteHeader(http.StatusBadRequest)
+//		return
+//	}
+//	atoi, err := strconv.Atoi(ID)
+//	if err != nil {
+//		writer.WriteHeader(http.StatusBadRequest)
+//		err := json.NewEncoder(writer).Encode([]string{"err.can't conver id from string", err.Error()})
+//		if err != nil {
+//			log.Print(err)
+//		}
+//	}
+//	err = server.svc.SetVisitTime(int64(atoi))
+//	if err != nil {
+//		writer.WriteHeader(http.StatusBadRequest)
+//		err := json.NewEncoder(writer).Encode([]string{"err.can't fix Visit times", err.Error()})
+//		if err != nil {
+//			log.Print(err)
+//		}
+//	}
+//	return
+//}
 //
 func (server *MainServer) ReportHandler(writer http.ResponseWriter, request *http.Request, pr httprouter.Params) {
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")

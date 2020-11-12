@@ -225,7 +225,6 @@ func (receiver *UserSvc) SetStateAndDate(State models.StatesDTO, id string) (err
 	defer conn.Release()
 	fmt.Println("ID = ", id)
 	atoi, err := strconv.Atoi(id)
-<<<<<<< HEAD
 	userById, err := receiver.GetUserById(id)
 	if err != nil {
 		fmt.Println("can't get user by id")
@@ -234,10 +233,6 @@ func (receiver *UserSvc) SetStateAndDate(State models.StatesDTO, id string) (err
 
 	State.Status = !userById.Status
 	//	getUserByIdDML
- 	//
-=======
-	//
->>>>>>> ebef9b700f9fa3dd048c93be9355592e39a79cd1
 	timeNowUnix := models.GetUnixTimeStartOfDay(time.Now())
 	stats, err := receiver.GetUserStats(id, timeNowUnix)
 	if err != nil {
@@ -245,11 +240,7 @@ func (receiver *UserSvc) SetStateAndDate(State models.StatesDTO, id string) (err
 		return
 	}
 	lengthOfStats := len(stats)
-<<<<<<< HEAD
 	if lengthOfStats > 0 && !State.IsLogin {
-=======
-	if lengthOfStats > 0 && State.Time > 0 {
->>>>>>> ebef9b700f9fa3dd048c93be9355592e39a79cd1
 		DifferenceTimeByClick := time.Now().Unix() - stats[lengthOfStats - 1].UnixDate
 		State.Time = DifferenceTimeByClick
 	}
