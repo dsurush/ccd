@@ -225,13 +225,13 @@ func (receiver *UserSvc) SetStateAndDate(State models.StatesDTO, id string) (err
 	defer conn.Release()
 	fmt.Println("ID = ", id)
 	atoi, err := strconv.Atoi(id)
-	userById, err := receiver.GetUserById(id)
-	if err != nil {
-		fmt.Println("can't get user by id")
-		return
-	}
-
-	State.Status = !userById.Status
+	//userById, err := receiver.GetUserById(id)
+	//if err != nil {
+	//	fmt.Println("can't get user by id")
+	//	return
+	//}
+	//
+	//State.Status = !userById.Status
 	//	getUserByIdDML
 	timeNowUnix := models.GetUnixTimeStartOfDay(time.Now())
 	stats, err := receiver.GetUserStats(id, timeNowUnix)
@@ -245,7 +245,7 @@ func (receiver *UserSvc) SetStateAndDate(State models.StatesDTO, id string) (err
 		State.Time = DifferenceTimeByClick
 	}
 	//
-
+	if lengthOfStats == 0 { State.Time = 0}
 	if err != nil {
 		fmt.Println("can't conver to Int")
 		return
