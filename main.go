@@ -10,6 +10,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	//	"github.com/jackc/pgx/v4/pgxpool"
+	_ "ccs/loginit"
 	"github.com/jackc/pgx/pgxpool"
 	"github.com/julienschmidt/httprouter"
 	"log"
@@ -25,7 +26,7 @@ func HashPassword(password string) (string, error) {
 }
 
 func main() {
-//	flag.Parse()
+	//	flag.Parse()
 	router := httprouter.New()
 
 	//pool, err := pgxpool.Connect(context.Background(), *dsn)

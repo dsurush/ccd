@@ -3,6 +3,7 @@ package services
 import (
 	"ccs/models"
 	"ccs/token"
+	_ "ccs/loginit"
 	"context"
 	"errors"
 	"fmt"
@@ -70,7 +71,7 @@ func (receiver *UserSvc) GetUserById(id string) (User models.UserDTO, err error)
 		&User.Position,
 		&User.StatusLine,
 		&User.UnixTime,
-		)
+	)
 	if err != nil {
 		fmt.Printf("Can't scan %e", err)
 	}
@@ -91,7 +92,7 @@ func (receiver *UserSvc) GetUsers() (Users []models.UserDTO, err error) {
 	}
 	defer rows.Close()
 
-	for rows.Next(){
+	for rows.Next() {
 		User := models.UserDTO{}
 		err := rows.Scan(
 			&User.Id,
@@ -105,7 +106,7 @@ func (receiver *UserSvc) GetUsers() (Users []models.UserDTO, err error) {
 			&User.Position,
 			&User.StatusLine,
 			&User.UnixTime,
-			)
+		)
 		if err != nil {
 			fmt.Println("can't scan err is = ", err)
 		}
@@ -117,6 +118,7 @@ func (receiver *UserSvc) GetUsers() (Users []models.UserDTO, err error) {
 	}
 	return
 }
+
 // User With WorkTime DTO
 func (receiver *UserSvc) GetUsersWithWorkTime() (Users []models.UserWithWorkTimeDTO, err error) {
 	conn, err := receiver.pool.Acquire(context.Background())
@@ -133,7 +135,7 @@ func (receiver *UserSvc) GetUsersWithWorkTime() (Users []models.UserWithWorkTime
 	}
 	defer rows.Close()
 
-	for rows.Next(){
+	for rows.Next() {
 		User := models.UserWithWorkTimeDTO{}
 		//string := ""
 		err := rows.Scan(
@@ -152,7 +154,7 @@ func (receiver *UserSvc) GetUsersWithWorkTime() (Users []models.UserWithWorkTime
 			&User.Rest)
 		if err != nil {
 			fmt.Println("can't scan err is = ", err)
-//			return
+			//			return
 		}
 		Users = append(Users, User)
 	}
@@ -163,7 +165,7 @@ func (receiver *UserSvc) GetUsersWithWorkTime() (Users []models.UserWithWorkTime
 	return
 }
 
-func (receiver *UserSvc) AddNewUser(User models.SaveUser) (err error){
+func (receiver *UserSvc) AddNewUser(User models.SaveUser) (err error) {
 	User.Password, err = HashPassword(User.Password)
 	if err != nil {
 		fmt.Println("can't do your pass to hash")
@@ -185,7 +187,7 @@ func (receiver *UserSvc) AddNewUser(User models.SaveUser) (err error){
 	return nil
 }
 
-func (receiver *UserSvc) EditUser(User models.SaveUser, id string) (err error){
+func (receiver *UserSvc) EditUser(User models.SaveUser, id string) (err error) {
 	User.Password, err = HashPassword(User.Password)
 	if err != nil {
 		fmt.Println("can't do your pass to hash")
@@ -198,7 +200,7 @@ func (receiver *UserSvc) EditUser(User models.SaveUser, id string) (err error){
 	}
 	defer conn.Release()
 	fmt.Println("User = ", User)
-	if User.Password == ``{
+	if User.Password == `` {
 		_, err = conn.Exec(context.Background(), editUserWithoutPassDML, User.Name, User.Surname, User.LastName,
 			User.Login, User.Phone, User.Position, id)
 		if err != nil {
@@ -217,52 +219,99 @@ func (receiver *UserSvc) EditUser(User models.SaveUser, id string) (err error){
 }
 
 func (receiver *UserSvc) SetStateAndDate(State models.StatesDTO, id string) (err error) {
+	log.Println("UserSvc метод SetStateAndDate")
+	log.Println("Полученные данные\n", State, "user_id = ", id, '\n')
+	// Подключение pool-а к БД
 	conn, err := receiver.pool.Acquire(context.Background())
 	if err != nil {
-		log.Fatalf("can't get connection %e", err)
+		log.Println("can't get connection", err)
 		return err
 	}
 	defer conn.Release()
-	fmt.Println("ID = ", id)
+
+	// Конвертация string в int
 	atoi, err := strconv.Atoi(id)
-	//userById, err := receiver.GetUserById(id)
-	//if err != nil {
-	//	fmt.Println("can't get user by id")
-	//	return
-	//}
-	//
-	//State.Status = !userById.Status
-	//	getUserByIdDML
-	timeNowUnix := models.GetUnixTimeStartOfDay(time.Now())
-	stats, err := receiver.GetUserStats(id, timeNowUnix)
 	if err != nil {
-		fmt.Println("can't get userState")
+		log.Println("Ошибка конвертации id из string в int", err)
 		return
 	}
+
+	// Получение слайса данных пользователя по id за сегодняшний день
+	StartOfDayInUnix := models.GetUnixTimeStartOfDay(time.Now())
+	stats, err := receiver.GetUserStats(id, StartOfDayInUnix)
+	if err != nil {
+		log.Println("Ошибка получение действий из БД", err)
+		return
+	}
+	// Получение разницы времени с предыдущим запросом
+	timeUnixNow := time.Now().Unix()
+	log.Println(stats)
 	lengthOfStats := len(stats)
-	if lengthOfStats > 0 && !State.IsLogin {
-		DifferenceTimeByClick := time.Now().Unix() - stats[lengthOfStats - 1].UnixDate
-		State.Time = DifferenceTimeByClick
+	if !State.IsLogin && lengthOfStats > 0 {
+		differenceByClick := timeUnixNow - stats[lengthOfStats-1].UnixDate
+		State.Time = differenceByClick
+	} else {
+		State.Time = 0
 	}
-	//
-	if lengthOfStats == 0 { State.Time = 0}
+	log.Println(State.Time)
+	// Добавление State в БД
+	_, err = conn.Exec(context.Background(), setStateAndTimeDML, int64(atoi), State.Time, State.Status, timeUnixNow, time.Now())
 	if err != nil {
-		fmt.Println("can't conver to Int")
+		log.Print("Не может добавить State в БД = ", err)
 		return
 	}
-	//	fmt.Println("Unix time = ", time.Now().Unix())
-	_, err = conn.Exec(context.Background(), setStateAndTimeDML, int64(atoi), State.Time, State.Status, time.Now().Unix(), time.Now())
-	if err != nil {
-		log.Print("can't add to db err is = ", err)
-		return err
-	}
+	// Изменения статуса в БД в табличке User
 	_, err = conn.Exec(context.Background(), editUserStateDML, State.Status, int64(atoi))
 	if err != nil {
 		log.Print("can't add edit User StateDML = ", err)
-		return err
+		return
 	}
-	return nil
+
+	return
 }
+
+//func (receiver *UserSvc) SetStateAndDate(State models.StatesDTO, id string) (err error) {
+//	conn, err := receiver.pool.Acquire(context.Background())
+//	if err != nil {
+//		log.Fatalf("can't get connection %e", err)
+//		return err
+//	}
+//	defer conn.Release()
+//	fmt.Println("ID = ", id)
+//	atoi, err := strconv.Atoi(id)
+//	if err != nil {
+//		fmt.Println("can't conver to Int")
+//		return
+//	}
+//	timeNowUnix := models.GetUnixTimeStartOfDay(time.Now())
+//
+//	stats, err := receiver.GetUserStats(id, timeNowUnix)
+//	if err != nil {
+//		fmt.Println("can't get userState")
+//		return
+//	}
+//
+//	lengthOfStats := len(stats)
+//
+//	if lengthOfStats > 0 && !State.IsLogin {
+//		DifferenceTimeByClick := time.Now().Unix() - stats[lengthOfStats-1].UnixDate
+//		State.Time = DifferenceTimeByClick
+//	} else {
+//		State.Time = 0
+//	}
+//
+//	_, err = conn.Exec(context.Background(), setStateAndTimeDML, int64(atoi), State.Time, State.Status, time.Now().Unix(), time.Now())
+//	if err != nil {
+//		log.Print("can't add to db err is = ", err)
+//		return err
+//	}
+//	_, err = conn.Exec(context.Background(), editUserStateDML, State.Status, int64(atoi))
+//	if err != nil {
+//		log.Print("can't add edit User StateDML = ", err)
+//		return err
+//	}
+//	return nil
+//}
 
 func (receiver *UserSvc) GetUserStats(id string, from int64) (States []models.State, err error) {
 	conn, err := receiver.pool.Acquire(context.Background())
@@ -278,7 +327,7 @@ func (receiver *UserSvc) GetUserStats(id string, from int64) (States []models.St
 	}
 	defer rows.Close()
 
-	for rows.Next(){
+	for rows.Next() {
 		State := models.State{}
 		err := rows.Scan(
 			&State.ID,
@@ -313,7 +362,7 @@ func (receiver *UserSvc) GetUsersStats(interval models.TimeInterval) (States []m
 	}
 	defer rows.Close()
 
-	for rows.Next(){
+	for rows.Next() {
 		State := models.TotalState{}
 		err := rows.Scan(
 			&State.Name,
@@ -346,7 +395,7 @@ func (receiver *UserSvc) GetUserStatsForAdmin(id string, interval models.TimeInt
 	}
 	defer rows.Close()
 
-	for rows.Next(){
+	for rows.Next() {
 		State := models.State{}
 		err := rows.Scan(
 			&State.ID,
@@ -367,7 +416,7 @@ func (receiver *UserSvc) GetUserStatsForAdmin(id string, interval models.TimeInt
 	return
 }
 
-func (receiver *UserSvc) ChangePassword(id string, pass string, newPass string) (err error){
+func (receiver *UserSvc) ChangePassword(id string, pass string, newPass string) (err error) {
 	conn, err := receiver.pool.Acquire(context.Background())
 	if err != nil {
 		log.Printf("can't get connection %e", err)
@@ -380,7 +429,7 @@ func (receiver *UserSvc) ChangePassword(id string, pass string, newPass string) 
 		fmt.Printf("Can't scan %e", err)
 		return
 	}
-//TODO: HERE
+	//TODO: HERE
 	err = bcrypt.CompareHashAndPassword([]byte(password), []byte(pass))
 	if err != nil {
 		err = token.ErrInvalidPasswordOrLogin
@@ -393,7 +442,7 @@ func (receiver *UserSvc) ChangePassword(id string, pass string, newPass string) 
 		fmt.Printf("Can't set new pass %e", err)
 		return
 	}
-	
+
 	return
 }
 
@@ -412,6 +461,7 @@ func (receiver *UserSvc) SetStatusLine(login string, statusLine bool) (err error
 	}
 	return nil
 }
+
 //
 func (receiver *UserSvc) SetStatusLineById(id string, statusLine bool) (err error) {
 	conn, err := receiver.pool.Acquire(context.Background())
@@ -428,6 +478,7 @@ func (receiver *UserSvc) SetStatusLineById(id string, statusLine bool) (err erro
 	}
 	return nil
 }
+
 ///
 func (receiver *UserSvc) SetStatusById(id string, status bool) (err error) {
 	conn, err := receiver.pool.Acquire(context.Background())
@@ -445,7 +496,7 @@ func (receiver *UserSvc) SetStatusById(id string, status bool) (err error) {
 	return nil
 }
 
-func (receiver *UserSvc) ExitClick(id string, State models.StatesDTO) (err error){
+func (receiver *UserSvc) ExitClick(id string, State models.StatesDTO) (err error) {
 	const StatusFalse = false
 	err = receiver.SetStatusLineById(id, StatusFalse)
 	if err != nil {
@@ -505,6 +556,7 @@ func (receiver *UserSvc) FixTimeLogin(id int64) (err error) {
 	}
 	return
 }
+
 //
 func (receiver *UserSvc) FixTimeLogout(id int64) (err error) {
 	conn, err := receiver.pool.Acquire(context.Background())
@@ -541,7 +593,7 @@ func (receiver *UserSvc) TestMe(time string) (Reports []models.Report, err error
 	}
 	defer rows.Close()
 
-	for rows.Next(){
+	for rows.Next() {
 		Report := models.Report{}
 		err := rows.Scan(
 			&Report.Name,
@@ -562,7 +614,7 @@ func (receiver *UserSvc) TestMe(time string) (Reports []models.Report, err error
 	return
 }
 
-func (receiver *UserSvc) CheckHasFixForToday(id int64) (ok bool, err error){
+func (receiver *UserSvc) CheckHasFixForToday(id int64) (ok bool, err error) {
 	conn, err := receiver.pool.Acquire(context.Background())
 	if err != nil {
 		log.Printf("can't get connection %e", err)
@@ -576,13 +628,13 @@ func (receiver *UserSvc) CheckHasFixForToday(id int64) (ok bool, err error){
 	_ = conn.QueryRow(context.Background(), `Select id from login_times where 
 user_id = ($1) and time_date = ($2)`, id, TimeDate).Scan(&idNew)
 	fmt.Println("I am newID = ", idNew)
-	if idNew == 0{
+	if idNew == 0 {
 		return false, nil
 	}
 	return true, nil
 }
 
-func (receiver *UserSvc) UpdateToFixLoginTime(id int64) (err error){
+func (receiver *UserSvc) UpdateToFixLoginTime(id int64) (err error) {
 	conn, err := receiver.pool.Acquire(context.Background())
 	if err != nil {
 		log.Printf("can't get connection %e", err)
@@ -601,7 +653,7 @@ func (receiver *UserSvc) UpdateToFixLoginTime(id int64) (err error){
 	return nil
 }
 
-func (receiver *UserSvc) UpdateToFixLogoutTime(id int64) (err error){
+func (receiver *UserSvc) UpdateToFixLogoutTime(id int64) (err error) {
 	conn, err := receiver.pool.Acquire(context.Background())
 	if err != nil {
 		log.Printf("can't get connection %e", err)
@@ -676,7 +728,7 @@ func (receiver *UserSvc) GetReport(from, to string) (Reports []models.Report, er
 	}
 	defer rows.Close()
 
-	for rows.Next(){
+	for rows.Next() {
 		Report := models.Report{}
 		err := rows.Scan(
 			&Report.Name,
@@ -699,7 +751,7 @@ func (receiver *UserSvc) GetReport(from, to string) (Reports []models.Report, er
 	return
 }
 
-func (receiver *UserSvc) CheckHasUserVisitTime(id int64) (err error){
+func (receiver *UserSvc) CheckHasUserVisitTime(id int64) (err error) {
 	conn, err := receiver.pool.Acquire(context.Background())
 	if err != nil {
 		log.Printf("can't get connection %e", err)
@@ -710,7 +762,7 @@ func (receiver *UserSvc) CheckHasUserVisitTime(id int64) (err error){
 	_ = conn.QueryRow(context.Background(), `Select id from visit_times where 
 user_id = ($1)`, id).Scan(&idNew)
 	fmt.Println("I am newID = ", idNew)
-	if idNew == 0{
+	if idNew == 0 {
 		_, err = conn.Exec(context.Background(), `Insert into "visit_times"(user_id, unix_date) values(($1), ($2))`, id, time.Now().Unix())
 		if err != nil {
 			fmt.Printf(" Cant Get %e", err)
@@ -739,7 +791,7 @@ func (receiver *UserSvc) SetVisitTime(id int64) (err error) {
 	return
 }
 
-func (receiver *UserSvc) CheckHasActivity(userId int64) (idNew int64, err error){
+func (receiver *UserSvc) CheckHasActivity(userId int64) (idNew int64, err error) {
 	conn, err := receiver.pool.Acquire(context.Background())
 	if err != nil {
 		log.Printf("can't get connection %e", err)
@@ -784,14 +836,13 @@ work_time = ($4), exited = ($5) where user_id = ($6)`, Date.Token, time.Now().Un
 	return
 }
 
-
-func (receiver *UserSvc) SetActivities(userId int64, Date models.StatusConfirm) (err error){
+func (receiver *UserSvc) SetActivities(userId int64, Date models.StatusConfirm) (err error) {
 	newId, err := receiver.CheckHasActivity(userId)
 	if err != nil {
 		fmt.Println("Can't check Has Activity")
 		return
 	}
-	if newId == 0{
+	if newId == 0 {
 		err := receiver.InsertActivities(userId, Date)
 		if err != nil {
 			fmt.Println("Can't insert new userId in activities")
@@ -805,7 +856,7 @@ func (receiver *UserSvc) SetActivities(userId int64, Date models.StatusConfirm) 
 	return
 }
 
-func (receiver *UserSvc) SubmitStatusTrue(userId int64) (err error){
+func (receiver *UserSvc) SubmitStatusTrue(userId int64) (err error) {
 	conn, err := receiver.pool.Acquire(context.Background())
 	if err != nil {
 		log.Printf("can't get connection %e", err)
