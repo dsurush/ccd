@@ -66,7 +66,7 @@ func Logger(prefix string) func(next httprouter.Handle) httprouter.Handle {
 			}
 			//get := request.Header.Get(`ID`)
 			//fmt.Println(`I am Payloads fields = `, get)
-			log.Printf(
+			fmt.Printf(
 				"%s: [%s] login: %s %s Method: %s, path: %s\n",
 				time.Now().Format("2006-01-02 15:04:05"),
 				strings.Split(request.RemoteAddr, ":")[0],
