@@ -49,16 +49,16 @@ func (server *MainServer) LoginHandler(writer http.ResponseWriter, request *http
 		writer.WriteHeader(http.StatusIMUsed)
 		return
 	}
-	const StatusLine = true
-	err = server.svc.SetStatusLine(requestBody.Username, StatusLine)
-	if err != nil {
-		writer.WriteHeader(http.StatusBadRequest)
-		err := json.NewEncoder(writer).Encode([]string{"err.password_mismatch", err.Error()})
-		if err != nil {
-			log.Print(err)
-		}
-		return
-	}
+	//const StatusLine = true
+	//err = server.svc.SetStatusLine(requestBody.Username, StatusLine)
+	//if err != nil {
+	//	writer.WriteHeader(http.StatusBadRequest)
+	//	err := json.NewEncoder(writer).Encode([]string{"err.password_mismatch", err.Error()})
+	//	if err != nil {
+	//		log.Print(err)
+	//	}
+	//	return
+	//}
 	err = server.svc.SetLoginTime(user.Id)
 	if err != nil {
 		writer.WriteHeader(http.StatusBadRequest)
@@ -205,7 +205,7 @@ func (server *MainServer) SetStateAndDateHandler(writer http.ResponseWriter, req
 	}
 	ID := request.Header.Get(`ID`)
 	fmt.Println("im id in handler", ID)
-	err = server.svc.SetStateAndDate(requestBody, ID)
+	err, user := server.svc.SetStateAndDate(requestBody, ID)
 	if err != nil {
 	//	fmt.Println("Err to add new user")
 		writer.WriteHeader(http.StatusBadRequest)
@@ -227,7 +227,11 @@ func (server *MainServer) SetStateAndDateHandler(writer http.ResponseWriter, req
 			log.Print(err)
 		}
 	}
-
+	fmt.Println(user)
+	err = json.NewEncoder(writer).Encode(user)
+	if err != nil {
+		log.Print(err)
+	}
 	return
 }
 // Get User Stats
@@ -552,13 +556,85 @@ func (server *MainServer) StatusConfirmHandler(writer http.ResponseWriter, reque
 
 	type status struct {
 		StatusLine bool `json:"status_line"`
+		Status bool `json:"status"`
+		WorkTime int64 `json:"work_time"`
 	}
+	day := models.GetUnixTimeStartOfDay(time.Now())
+	stats, err := server.svc.GetUserStats(ID, day)
+
 	var res status
 	res.StatusLine = User.StatusLine
+	res.Status = User.Status
+	res.WorkTime = time.Now().Unix()- stats[len(stats) - 1].UnixDate
 	err = json.NewEncoder(writer).Encode(&res)
 	if err != nil {
 		log.Print(err)
 		return
+	}
+	return
+}
+// Set Status and Date
+func (server *MainServer) SetStateAndDateStartWorkHandler(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
+	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+	var requestBody models.StatesDTO
+	requestBody.Time = 0
+	requestBody.Status = true
+	ID := request.Header.Get(`ID`)
+	UserForLine, err := server.svc.GetUserById(ID)
+	if err != nil {
+		fmt.Println("Err to add new user", err)
+		writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	if UserForLine.StatusLine == true{
+		UserForLine.StatusLine = false
+		writer.WriteHeader(http.StatusOK)
+		err := json.NewEncoder(writer).Encode(UserForLine)
+		if err != nil {
+			log.Print(err)
+		}
+		return
+	}
+	const StatusLine = true
+	err = server.svc.SetStatusLine(UserForLine.Login, StatusLine)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.password_mismatch", err.Error()})
+		if err != nil {
+			log.Print(err)
+		}
+		return
+	}
+	fmt.Println("im START handler", ID)
+	err, user := server.svc.SetStateAndDateStartWork(requestBody, ID)
+	if err != nil {
+		fmt.Println("Err to add new user", err)
+		writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	fmt.Println("im START2 handler", ID)
+	atoi, err := strconv.Atoi(ID)
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.can't conver id from string", err.Error()})
+		if err != nil {
+			log.Print(err)
+		}
+	}
+	fmt.Println("im START2 handler", ID)
+	err = server.svc.SetVisitTime(int64(atoi))
+	if err != nil {
+		writer.WriteHeader(http.StatusBadRequest)
+		err := json.NewEncoder(writer).Encode([]string{"err.can't fix Visit times", err.Error()})
+		if err != nil {
+			log.Print(err)
+		}
+	}
+	fmt.Println("im START 3handler", ID)
+	fmt.Println(user)
+	err = json.NewEncoder(writer).Encode(user)
+	if err != nil {
+		log.Print(err)
 	}
 	return
 }

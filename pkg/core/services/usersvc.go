@@ -218,15 +218,16 @@ func (receiver *UserSvc) EditUser(User models.SaveUser, id string) (err error) {
 	return nil
 }
 
-func (receiver *UserSvc) SetStateAndDate(State models.StatesDTO, id string) (err error) {
+func (receiver *UserSvc) SetStateAndDate(State models.StatesDTO, id string) (err error, User models.UserDTO) {
 	log.Println("UserSvc метод SetStateAndDate")
 	log.Println("Полученные данные\n", State, "user_id = ", id, '\n')
 	// Подключение pool-а к БД
 	conn, err := receiver.pool.Acquire(context.Background())
 	if err != nil {
 		log.Println("can't get connection", err)
-		return err
+		return
 	}
+	fmt.Println("ECHO")
 	defer conn.Release()
 
 	// Конвертация string в int
@@ -235,7 +236,7 @@ func (receiver *UserSvc) SetStateAndDate(State models.StatesDTO, id string) (err
 		log.Println("Ошибка конвертации id из string в int", err)
 		return
 	}
-
+	fmt.Println("ECHO1")
 	// Получение слайса данных пользователя по id за сегодняшний день
 	StartOfDayInUnix := models.GetUnixTimeStartOfDay(time.Now())
 	stats, err := receiver.GetUserStats(id, StartOfDayInUnix)
@@ -243,30 +244,89 @@ func (receiver *UserSvc) SetStateAndDate(State models.StatesDTO, id string) (err
 		log.Println("Ошибка получение действий из БД", err)
 		return
 	}
+	fmt.Println("ECHO2")
 	// Получение разницы времени с предыдущим запросом
 	timeUnixNow := time.Now().Unix()
 	log.Println(stats)
 	lengthOfStats := len(stats)
-	if !State.IsLogin && lengthOfStats > 0 {
+	if lengthOfStats > 0 {
 		differenceByClick := timeUnixNow - stats[lengthOfStats-1].UnixDate
 		State.Time = differenceByClick
-	} else {
-		State.Time = 0
 	}
-	log.Println(State.Time)
+	fmt.Println("ECHO3")
+	State.Status = !stats[lengthOfStats - 1].Status
+	log.Println(State.Time, State.Status)
 	// Добавление State в БД
 	_, err = conn.Exec(context.Background(), setStateAndTimeDML, int64(atoi), State.Time, State.Status, timeUnixNow, time.Now())
 	if err != nil {
 		log.Print("Не может добавить State в БД = ", err)
 		return
 	}
+	fmt.Println("ECHO4")
 	// Изменения статуса в БД в табличке User
 	_, err = conn.Exec(context.Background(), editUserStateDML, State.Status, int64(atoi))
 	if err != nil {
 		log.Print("can't add edit User StateDML = ", err)
 		return
 	}
+	fmt.Println("ECHO5")
+	User, err = receiver.GetUserById(id)
+	if err != nil {
+		log.Print("can't get user by id = ", err)
+		return
+	}
+	fmt.Println("ECHO6")
+	return
+}
 
+func (receiver *UserSvc) SetStateAndDateStartWork(State models.StatesDTO, id string) (err error, User models.UserDTO) {
+	log.Println("UserSvc метод SetStateAndDate")
+	log.Println("Полученные данные\n", State, "user_id = ", id, '\n')
+	// Подключение pool-а к БД
+	conn, err := receiver.pool.Acquire(context.Background())
+	if err != nil {
+		log.Println("can't get connection", err)
+		return
+	}
+	fmt.Println("ECHO")
+	defer conn.Release()
+
+	// Конвертация string в int
+	atoi, err := strconv.Atoi(id)
+	if err != nil {
+		log.Println("Ошибка конвертации id из string в int", err)
+		return
+	}
+	fmt.Println("ECHOq1")
+	// Получение слайса данных пользователя по id за сегодняшний день
+	//StartOfDayInUnix := models.GetUnixTimeStartOfDay(time.Now())
+	fmt.Println("ECHOq2")
+	// Получение разницы времени с предыдущим запросом
+	timeUnixNow := time.Now().Unix()
+	//lengthOfStats := len(stats)
+	fmt.Println("ECHOq3")
+	//State.Status = !stats[lengthOfStats - 1].Status
+	log.Println(State.Time, State.Status)
+	// Добавление State в БД
+	_, err = conn.Exec(context.Background(), setStateAndTimeDML, int64(atoi), State.Time, State.Status, timeUnixNow, time.Now())
+	if err != nil {
+		log.Print("Не может добавить State в БД = ", err)
+		return
+	}
+	fmt.Println("ECHOq4")
+	// Изменения статуса в БД в табличке User
+	_, err = conn.Exec(context.Background(), editUserStateDML, State.Status, int64(atoi))
+	if err != nil {
+		log.Print("can't add edit User StateDML = ", err)
+		return
+	}
+	fmt.Println("ECHOq5")
+	User, err = receiver.GetUserById(id)
+	if err != nil {
+		log.Print("can't get user by id = ", err)
+		return
+	}
+	fmt.Println("ECHOq6")
 	return
 }
 
@@ -503,7 +563,7 @@ func (receiver *UserSvc) ExitClick(id string, State models.StatesDTO) (err error
 		log.Print("can't add to db status_line false, err is  = ", err)
 		return err
 	}
-	err = receiver.SetStateAndDate(State, id)
+	err, _ = receiver.SetStateAndDate(State, id)
 	if err != nil {
 		log.Print("can't set to db state and date, err is = ", err)
 		return err
